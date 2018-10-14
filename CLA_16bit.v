@@ -23,8 +23,8 @@ assign Ci = {G[2] + P[2]*Ci[2],G[1] + P[1]*Ci[1], (G[0] + P[0]*Ci[0]), Ci[0]};
 assign Cout = G[3] + P[3]*Ci[3];
 //assign povfl = sub ? (Sum[15] * (~A[15]) * B[15]) : (Sum[15]* (~A[15]) * (~B[15]));
 //assign novfl = sub ? ((A[15]) * (~B[15]) * (~Sum[15])) : ((~Sum[15]) * (A[15]) * (B[15]));
-assign novfl = (A[15] * Binput[15] *(~Sum[15]));
-assign povfl = (~A[15] * (~Binput[15]) * (Sum[15]));
+assign novfl = (A[15] * Binput[15] *(~Sumi[15]));
+assign povfl = (~A[15] * (~Binput[15]) * (Sumi[15]));
 assign ovfl = povfl | novfl;
 assign Sum = povfl ? 16'h7FFF : 
 			 (novfl ? 16'h8000 : Sumi);
