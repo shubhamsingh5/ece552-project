@@ -1,35 +1,40 @@
 
 module PC_control(
-input branchEn,
-input Br,
+input B,
 input [2:0] C,
-input [8:0] I,
+input [15:0] I,
 input [2:0] F,
 input [15:0] PC_in,
 output [15:0] PC_out
 );
 
-wire [15:0] PC_BrN;
-wire [15:0] PC_BrT;
-wire [15:0] extI;
-wire overflow1, overflow2, branchtaken;
+reg [15:0] target_addr;
 
-assign extI = {{7'b0000000},{I}};
 
-//branch not taken, compute PC+2
-adder_16bit addPC1 (.A(PC_in), .B(16'h0002), .Cin(1'b0), .Sum(PC_BrN), .overflow(overflow1));
-//branch taken, compute PC+I
-adder_16bit addPC2 (.A(PC_in), .B(extI), .Cin(1'b0), .Sum(PC_BrT), .overflow(overflow2));
+always @(*) begin
+  case (C)
+    3'b000: //not equal (Z=0)
+        target_addr = (F[1]) ? PC_in + 2 : PC_in + 2 + (I << 1);
+    3'b001: //equal (Z=1)
+        target_addr = (F[1]) ? PC_in + 2 + (I << 1) : PC_in + 2;
+    3'b010: //greater than (Z=N=0)
+        target_addr = (F[2] & F[1]) ? PC_in + 2 : PC_in + 2 + (I << 1);
+    3'b011: //less than (N=1)
+        target_addr = (F[2]) ? PC_in + 2 + (I << 1) : PC_in + 2;
+    3'b100: //Greater than or equal (Z=1 or Z=N=0)
+        target_addr = (F[1] | ~F[2] | ~F[1]) ? PC_in + 2 + (I << 1) : PC_in + 2;
+    3'b101: //less than or equal (N = 1 or Z = 1)
+        target_addr = (F[1] | F[2]) ? PC_in + 2 + (I << 1) : PC_in + 2;
+    3'b110: //overflow (V = 1)
+        target_addr = (F[0]) ? PC_in + 2 + (I << 1) : PC_in + 2;
+    3'b111: //unconditional
+        target_addr = PC_in + 2 + (I << 1);
+    default: 
+        target_addr = PC_in + 2;
+  endcase
+end
 
-assign banchtaken = ((C == 3'b000) & (F[0] == 1'b0)) ? 1'b1:
-			((C == 3'b001) & (F[0] == 1'b1)) ? 1'b1:
-			((C == 3'b010) & (F[0] == 1'b0) & (F[2] == 1'b0)) ? 1'b1:
-			((C == 3'b011) & (F[2] == 1'b1)) ? 1'b1:
-			((C == 3'b100) & ((F[0] == 1'b1) | ((F[0] == 1'b0)&(F[2] == 1'b0)))) ? 1'b1:
-			((C == 3'b101) & ((F[0] == 1'b1) | (F[2] == 1'b1))) ? 1'b1:
-			((C == 3'b110) & (F[1] == 1'b1)) ? 1'b1:
-			1'b0;
 
-assign PC_out = ((branch == 1'b1) & (branchtaken == 1'b1) ? ((Br == 1'b1) ? I : PC_BrT) : (PC_BrN);
+assign PC_out = B ? target_addr : PC_in + 2;
 
 endmodule
