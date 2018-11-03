@@ -1,0 +1,35 @@
+The file assembler.pl is a Perl script that will process assembly code and
+generate machine code. To use, create your assembly code program in a
+file, e.g. 'infile', then in a Linux terminal, use the command:
+
+   perl assembler.pl <infile> > <outfile> 
+
+If you specify an outfile name, the output will be saved in that file.
+If you don't specify an outfile name, the output will be sent to the
+screen.
+
+Additional comments (also in assembler.pl):
+
+#NOTES:
+
+# -All labels MUST start with L
+
+# -No label at the beginning address 0000
+
+# -Shift amounts must be in decimal
+
+# -Immediate may be in hex or decimal.  If in hex, precede with "0x"
+
+# -Comments may be specified with either "#" or "//".  
+
+# -No multiline comments
+
+#
+
+#
+
+Of course, you will need to have Perl installed on your machine.
+
+
+
+

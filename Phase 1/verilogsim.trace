@@ -1,0 +1,11 @@
+INUM:        0 PC: 0x0000 REG:  1 VALUE: 0x0051
+INUM:        1 PC: 0x0002 REG:  1 VALUE: 0x5151
+INUM:        2 PC: 0x0004 REG:  2 VALUE: 0x00b0
+INUM:        3 PC: 0x0006 REG:  2 VALUE: 0xa0b0
+INUM:        4 PC: 0x0008 REG:  3 VALUE: 0xf101
+INUM:        5 PC: 0x000a REG:  4 VALUE: 0x7fff
+INUM:        6 PC: 0x000c REG:  6 VALUE: 0x8efe
+INUM:        7 PC: 0x000e REG:  7 VALUE: 0x0000
+INUM:        8 PC: 0x0010 REG:  8 VALUE: 0xe3bf
+INUM:        9 PC: 0x0012 REG:  9 VALUE: 0xeff8
+INUM:       10 PC: 0x0014

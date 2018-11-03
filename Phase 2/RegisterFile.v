@@ -31,7 +31,7 @@ Register reg14(.clk(clk), .rst(rst), .D(DstData), .WriteReg(dcd_out3[14]), .Read
 Register reg15(.clk(clk), .rst(rst), .D(DstData), .WriteReg(dcd_out3[15]), .ReadEnable1(dcd_out1[15]), .ReadEnable2(dcd_out2[15]), .Bitline1(src1_data15), .Bitline2(src2_data15));
 
 assign SrcData1 = (WriteReg) ? (DstReg & SrcReg1) ? DstData : 16'bz : 
-                  (dcd_out1[0]) ? src1_data0 :
+                  (dcd_out1[0]) ? 16'b0 :
                   (dcd_out1[1]) ? src1_data1 :
                   (dcd_out1[2]) ? src1_data2 :
                   (dcd_out1[3]) ? src1_data3 :
@@ -49,7 +49,7 @@ assign SrcData1 = (WriteReg) ? (DstReg & SrcReg1) ? DstData : 16'bz :
                   (dcd_out1[15]) ? src1_data15 : 16'bz;
 
 assign SrcData2 = (WriteReg) ? (DstReg & SrcReg2) ? DstData : 16'bz :
-                  (dcd_out2[0]) ? src2_data0 :
+                  (dcd_out2[0]) ? 16'b0 :
                   (dcd_out2[1]) ? src2_data1 :
                   (dcd_out2[2]) ? src2_data2 :
                   (dcd_out2[3]) ? src2_data3 :

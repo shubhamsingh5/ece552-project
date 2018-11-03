@@ -1,0 +1,698 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/HW5
+vaddsub_4bit
+Z0 !s110 1539834013
+!i10b 1
+!s100 55Oa8]2h3_>l6>@76W5WP2
+I3LU?4DAg9cn8b_m0eLO0o0
+Z1 VDg1SIo80bB@j0V0VzS_@n1
+Z2 dC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project
+w1539824310
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/addsub_4bit.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/addsub_4bit.v
+L0 1
+Z3 OP;L;10.4a;61
+r1
+!s85 0
+31
+Z4 !s108 1539834013.000000
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/addsub_4bit.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/addsub_4bit.v|
+!s101 -O0
+!i113 1
+Z5 o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact -O0
+valu
+!s110 1539817256
+!i10b 1
+!s100 ?<N9AF[YNe8:IU@R7K`mn1
+I002nk6:`zP0oK9dmbf;I<2
+R1
+R2
+w1539812730
+Z6 8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/ALU.v
+Z7 FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/ALU.v
+L0 1
+R3
+r1
+!s85 0
+31
+!s108 1539817256.000000
+Z8 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/ALU.v|
+Z9 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/ALU.v|
+!s101 -O0
+!i113 1
+R5
+vALU
+!s110 1539814775
+!i10b 1
+!s100 6DZ6L1]cDQ]kBnek3P:>93
+IfBKXc8AD2_:^ch[DLT2CS0
+R1
+R2
+w1537922780
+R6
+R7
+L0 1
+R3
+r1
+!s85 0
+31
+!s108 1539814775.000000
+R8
+R9
+!s101 -O0
+!i113 1
+R5
+n@a@l@u
+vALU_16bit
+Z10 !s110 1539834012
+!i10b 1
+!s100 Yc]aRMEL:AZoBKN=aPKa80
+Ie5ASnOGj<JhBfh_Ta@2Wm0
+R1
+R2
+w1539829452
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/ALU_16bit.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/ALU_16bit.v
+L0 1
+R3
+r1
+!s85 0
+31
+Z11 !s108 1539834012.000000
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/ALU_16bit.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/ALU_16bit.v|
+!s101 -O0
+!i113 1
+R5
+n@a@l@u_16bit
+vBitCell
+R10
+!i10b 1
+!s100 cN@6SP_kUjHoF0b:P2K]13
+IN=L:ac7e90dia`4Vb?U_93
+R1
+R2
+w1539127812
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/BitCell.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/BitCell.v
+L0 1
+R3
+r1
+!s85 0
+31
+R11
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/BitCell.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/BitCell.v|
+!s101 -O0
+!i113 1
+R5
+n@bit@cell
+vcarry_lookahead_adder_16bit
+Z12 !s110 1539817257
+!i10b 1
+!s100 @9CUa0WW5jl3C_TlhDT<Z3
+IEH3P^367CZ6<Jd5@j5lz^3
+R1
+R2
+Z13 w1539747884
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/carry_lookahead_adder_16bit.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/carry_lookahead_adder_16bit.v
+L0 1
+R3
+r1
+!s85 0
+31
+Z14 !s108 1539817257.000000
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/carry_lookahead_adder_16bit.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/carry_lookahead_adder_16bit.v|
+!s101 -O0
+!i113 1
+R5
+vcarry_lookahead_adder_4bit
+R12
+!i10b 1
+!s100 L26c7IX73K9QafgmFdV[L0
+IYWQI?TVL2H1522QmMkPHK3
+R1
+R2
+R13
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/carry_lookahead_adder_4bit.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/carry_lookahead_adder_4bit.v
+L0 1
+R3
+r1
+!s85 0
+31
+R14
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/carry_lookahead_adder_4bit.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/carry_lookahead_adder_4bit.v|
+!s101 -O0
+!i113 1
+R5
+vcarry_lookahead_adder_8bit
+R12
+!i10b 1
+!s100 II]2?[n25hRjVf?H^kmTE2
+IINe<VOUh47@E:kVIkGamG1
+R1
+R2
+w1539752734
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/carry_lookahead_adder_8bit.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/carry_lookahead_adder_8bit.v
+L0 1
+R3
+r1
+!s85 0
+31
+R14
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/carry_lookahead_adder_8bit.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/carry_lookahead_adder_8bit.v|
+!s101 -O0
+!i113 1
+R5
+vCLA_16bit
+R10
+!i10b 1
+!s100 ZMWag29kKMkm3KFg1]Ol;2
+I`b]b_;ZIGSI`Y?8QA31QY0
+R1
+R2
+w1539831692
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/CLA_16bit.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/CLA_16bit.v
+L0 1
+R3
+r1
+!s85 0
+31
+R11
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/CLA_16bit.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/CLA_16bit.v|
+!s101 -O0
+!i113 1
+R5
+n@c@l@a_16bit
+vCLA_4bit
+!s110 1539834819
+!i10b 1
+!s100 W<6fS3TiGeVXn;3F:DEUI3
+IQEZl7@<5XaWCH:L>DTc^e2
+R1
+R2
+w1539834816
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/CLA_4bit.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/CLA_4bit.v
+L0 1
+R3
+r1
+!s85 0
+31
+!s108 1539834819.000000
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/CLA_4bit.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/CLA_4bit.v|
+!s101 -O0
+!i113 1
+R5
+n@c@l@a_4bit
+vcla_block_16bit
+R12
+!i10b 1
+!s100 `PPj1XLNzo=@P:ILYI0YL1
+Ik1m7z1fkgIl:=4;=VY<PQ3
+R1
+R2
+Z15 w1539617204
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/cla_block_16bit.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/cla_block_16bit.v
+L0 1
+R3
+r1
+!s85 0
+31
+R14
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/cla_block_16bit.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/cla_block_16bit.v|
+!s101 -O0
+!i113 1
+R5
+vcla_block_4bit
+Z16 !s110 1539817258
+!i10b 1
+!s100 SB7gn6>GQeVHIl5N8M2H91
+I?kY3ccz;<WMHFF?Qo^S?G2
+R1
+R2
+R15
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/cla_block_4bit.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/cla_block_4bit.v
+L0 1
+R3
+r1
+!s85 0
+31
+Z17 !s108 1539817258.000000
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/cla_block_4bit.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/cla_block_4bit.v|
+!s101 -O0
+!i113 1
+R5
+vcla_block_8bit
+R16
+!i10b 1
+!s100 f0@AzF8cTOQ;V6=@138Pl3
+ISfHi2M_=36o]nEBAoBQB=1
+R1
+R2
+R13
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/cla_block_8bit.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/cla_block_8bit.v
+L0 1
+R3
+r1
+!s85 0
+31
+R17
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/cla_block_8bit.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/cla_block_8bit.v|
+!s101 -O0
+!i113 1
+R5
+vcpu
+R10
+!i10b 1
+!s100 jW7B]l8<T2cW0];h8@@l^0
+I36H<44SbH26OL1CX4=56H2
+R1
+R2
+w1539833110
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/cpu.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/cpu.v
+L0 2
+R3
+r1
+!s85 0
+31
+R11
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/cpu.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/cpu.v|
+!s101 -O0
+!i113 1
+R5
+vCPU_control
+R10
+!i10b 1
+!s100 3Q?5U;2oKl;[K1`m9d?E11
+I02G85nYR4jLF5adoiSfVA2
+R1
+R2
+w1539830283
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/CPU_control.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/CPU_control.v
+L0 1
+R3
+r1
+!s85 0
+31
+R11
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/CPU_control.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/CPU_control.v|
+!s101 -O0
+!i113 1
+R5
+n@c@p@u_control
+vcpu_tb
+R0
+!i10b 1
+!s100 WjmS;JPLokblW@H1OYo[F1
+I<:5f2LVg]fHJCNKC_YiUK2
+R1
+R2
+w1539833383
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/project-phase1-testbench.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/project-phase1-testbench.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/project-phase1-testbench.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/project-phase1-testbench.v|
+!s101 -O0
+!i113 1
+R5
+vdata_memory
+R10
+!i10b 1
+!s100 IR:68YA0W>eaF4k6n7bzX0
+I;<f<hfkNRI9=J:j7>[<UC3
+R1
+R2
+w1539728885
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/data_memory.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/data_memory.v
+Z18 L0 31
+R3
+r1
+!s85 0
+31
+R11
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/data_memory.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/data_memory.v|
+!s101 -O0
+!i113 1
+R5
+vdff
+R10
+!i10b 1
+!s100 PV_CoVVQ]?nI;J@mj=Gn=3
+I<@V;HeHUgOhXJP0P^0kAz2
+R1
+R2
+w1539124411
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/D-Flip-Flop.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/D-Flip-Flop.v
+L0 3
+R3
+r1
+!s85 0
+31
+R11
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/D-Flip-Flop.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/D-Flip-Flop.v|
+!s101 -O0
+!i113 1
+R5
+vflag_register
+R0
+!i10b 1
+!s100 o1=eP6haccaG1LNT]5CmV0
+IE`_R6HOfJ>gOI:][YVOT42
+R1
+R2
+w1539822236
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/flag_register.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/flag_register.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/flag_register.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/flag_register.v|
+!s101 -O0
+!i113 1
+R5
+vfull_adder_1bit
+R0
+!i10b 1
+!s100 cBAA4GH:WDh?<?46^Un>z2
+IBGZ]`nGC0GL?HL3_5W:RP1
+R1
+R2
+w1539823004
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/full_adder_1bit.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/full_adder_1bit.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/full_adder_1bit.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/full_adder_1bit.v|
+!s101 -O0
+!i113 1
+R5
+vinstr_memory
+R0
+!i10b 1
+!s100 4aFdVoe7_8OKED1N?O1ak0
+IKm44^znkGQY?b:V1=SlSC0
+R1
+R2
+w1539830254
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/instr_memory.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/instr_memory.v
+R18
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/instr_memory.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/instr_memory.v|
+!s101 -O0
+!i113 1
+R5
+vPADDSB_16bit
+R0
+!i10b 1
+!s100 5FXzgknmU;c^lzRV><?kn2
+I<QZ`2k75^RLnEoWcJWbXj1
+R1
+R2
+Z19 w1539778740
+Z20 8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/PSA_16bit.v
+Z21 FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/PSA_16bit.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+Z22 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/PSA_16bit.v|
+Z23 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/PSA_16bit.v|
+!s101 -O0
+!i113 1
+R5
+n@p@a@d@d@s@b_16bit
+vpaddSb_4bit
+R0
+!i10b 1
+!s100 0NCj4O>0BLEWKhQoEB6`81
+ICdYOR[>]34bZK7TA2?82@1
+R1
+R2
+w1539822823
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/paddSb_4bit.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/paddSb_4bit.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/paddSb_4bit.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/paddSb_4bit.v|
+!s101 -O0
+!i113 1
+R5
+npadd@sb_4bit
+vPC_control
+!s110 1539834560
+!i10b 1
+!s100 Q2M2@Yd<T=QzdSGQhRYlh0
+ICVUaQkb1zW0mZ:8CZnn@V2
+R1
+R2
+w1539834559
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/PC_control.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/PC_control.v
+L0 2
+R3
+r1
+!s85 0
+31
+!s108 1539834560.000000
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/PC_control.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/PC_control.v|
+!s101 -O0
+!i113 1
+R5
+n@p@c_control
+vpc_reg
+R0
+!i10b 1
+!s100 X7g<2BK?WR9>k>R0BE15N3
+IGcIG_T5Kgj53WPASW>2z;1
+R1
+R2
+w1539817495
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/pc_reg.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/pc_reg.v
+L0 2
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/pc_reg.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/pc_reg.v|
+!s101 -O0
+!i113 1
+R5
+vPSA_16bit
+R12
+!i10b 1
+!s100 S]bS8HZ`^`loYOY_T?glG2
+IK7?3ZzcTG3TZfN?:=9km80
+R1
+R2
+w1538513739
+R20
+R21
+L0 1
+R3
+r1
+!s85 0
+31
+R14
+R22
+R23
+!s101 -O0
+!i113 1
+R5
+n@p@s@a_16bit
+vReadDecoder_4_16
+R0
+!i10b 1
+!s100 W3gJTEPjA6haTajzaJLBA0
+I5k[CE25@<>=bi0;jUjU=A1
+R1
+R2
+w1539124407
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/ReadDecoder_4_16.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/ReadDecoder_4_16.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/ReadDecoder_4_16.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/ReadDecoder_4_16.v|
+!s101 -O0
+!i113 1
+R5
+n@read@decoder_4_16
+vRedUnit
+!s110 1539826942
+!i10b 1
+!s100 jj_ZjLjaYlK08dLM4oTPP0
+I:_z5P:6_eVD^BU;=EFa?R0
+R1
+R2
+R19
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/RedUnit.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/RedUnit.v
+L0 1
+R3
+r1
+!s85 0
+31
+!s108 1539826942.000000
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/RedUnit.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/RedUnit.v|
+!s101 -O0
+!i113 1
+R5
+n@red@unit
+vRegister
+R0
+!i10b 1
+!s100 AC[o^d1CM1S=o0Eefi^W91
+IH6@7EWW7UL:3>fX3]3<mF0
+R1
+R2
+w1539833756
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Register.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Register.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Register.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Register.v|
+!s101 -O0
+!i113 1
+R5
+n@register
+vRegisterFile
+R0
+!i10b 1
+!s100 j1X_?N81oPTPmS2a9>J0F0
+INbKKodfOfWD3lM0XBXYS61
+R1
+R2
+w1539818033
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/RegisterFile.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/RegisterFile.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/RegisterFile.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/RegisterFile.v|
+!s101 -O0
+!i113 1
+R5
+n@register@file
+vShifter
+R0
+!i10b 1
+!s100 JHmcOkkIO<?TVm:_]HIM_2
+I^T5L>RON;EjKk8eMef=nJ2
+R1
+R2
+w1539821552
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Shifter.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Shifter.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Shifter.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Shifter.v|
+!s101 -O0
+!i113 1
+R5
+n@shifter
+vWriteDecoder_4_16
+R10
+!i10b 1
+!s100 Ek5nSJ1ggF3NeH?dz9KLg2
+I<R5Gdz]8=Ca[=fWYI;E3j1
+R1
+R2
+w1539128415
+8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/WriteDecoder_4_16.v
+FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/WriteDecoder_4_16.v
+L0 1
+R3
+r1
+!s85 0
+31
+R11
+!s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/WriteDecoder_4_16.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/WriteDecoder_4_16.v|
+!s101 -O0
+!i113 1
+R5
+n@write@decoder_4_16
