@@ -29,7 +29,7 @@ wire [15:0] reg1, reg2;         //register file outputs
 wire [15:0] aluOut;             //output of ALU
 wire [15:0] memData;            //data output from memory
 wire [15:0] regData;            //data to write to register
-wire [15:0] aluB;               //second input of ALU
+wire [15:0] aluA, aluB;         //ALU inputs
 wire [15:0] immediate;          //immediate to be passed into ALU
 wire [15:0] memAddr;            //memory address
 wire [15:0] brAddr;             //address of branch;
@@ -37,7 +37,7 @@ wire [15:0] brAddr;             //address of branch;
 //flag_register
 flag_register fr(.clk(clk), .rst(~rst_n), .flag_in(flag), .flag_out(ccc), .en(en));
 //pc register
-pc_reg pcReg(.clk(clk), .rst(~rst_n), .D(next_pc), .WriteEnable(~halt), .q(curr_pc));
+pc_reg pcReg(.clk(clk), .rst(~rst_n), .D(brAddr), .WriteEnable(~halt), .q(curr_pc));
 //instruction memory
 instr_memory iMem(.data_out(instr), .addr(curr_pc), .clk(clk), .rst(~rst_n));
 //data memory
@@ -52,7 +52,7 @@ CPU_control cpuControl(.opc(instr[15:12]), .halt(halt), .RegDst(RegDst), .ALUSrc
                        .MemWrite(MemWrite), .MemtoReg(MemtoReg), .RegWrite(RegWrite), .Lower(Lower), 
                        .Higher(Higher), .BEn(BEn), .Br(Br), .PCS(PCS));
 //alu for execution
-ALU_16bit aluEx(.ALU_Out(aluOut), .ALU_In1(reg1), .ALU_In2(aluB), .Opcode(instr[15:12]), .Flags(flag), .en(en));
+ALU_16bit aluEx(.ALU_Out(aluOut), .ALU_In1(aluA), .ALU_In2(aluB), .Opcode(instr[15:12]), .Flags(flag), .en(en));
 
 //inputs
 assign rs = (Lower | Higher) ? rd : instr[7:4];
@@ -64,8 +64,9 @@ assign rd = instr[11:8];
 //select which register to write to
 assign destReg = (RegDst) ? rd : rt;
 //select immediate
-assign immediate = (MemRead | MemWrite) ? {{7{instr[3]}},instr[7:0]} << 1 : {{12{1'b0}},instr[3:0]};
+assign immediate = (MemRead | MemWrite) ? {{12{1'b0}},instr[3:0]} << 1 : {{12{1'b0}},instr[3:0]};
 //select input for ALU
+assign aluA = (MemRead | MemWrite) ? reg1 & 0xFFFE : reg1;
 assign aluB = (ALUSrc) ? immediate : reg2;
 //if LLB or LHB, then write the corresponding byte to reg, if MemtoReg, then write memory output to reg,
 //if PCS, then write next_pc value to reg, otherwise default to alu output
@@ -73,7 +74,7 @@ assign regData = (Lower) ? (reg1 & 16'hff00) | instr[7:0] :
                 (Higher) ? (reg1 & 16'h00ff) | (instr[7:0] << 8) :
               (MemtoReg) ? memData : (PCS) ? next_pc : aluOut;
 //select branch type
-assign brAddr = (Br) ? reg1 : {{7{instr[8]}},{instr[8:0]}};
+assign brAddr = (Br) ? reg1 : next_pc;
 
 assign hlt = halt;
 assign pc = curr_pc;
