@@ -34,13 +34,13 @@ Z5 !s108 1541279592.000000
 Z6 o-work work -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact -O0
 n@a@d@d@s@u@b
 vALU_16bit
-Z7 !s110 1541279889
+!s110 1541480481
 !i10b 1
-!s100 BaeC:Y@E;o3?XN`gf4VTa1
-IJEnH450MdzoPN@0E7P^I;3
+!s100 aRLge6^m15YA4Egk`FM@m1
+ICQKlQN6@jfXJJUAi2@eKh1
 R2
 R3
-w1541279863
+w1541480478
 8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/ALU_16bit.v
 FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/ALU_16bit.v
 L0 1
@@ -48,12 +48,12 @@ R4
 r1
 !s85 0
 31
-Z8 !s108 1541279889.000000
+!s108 1541480481.000000
 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/ALU_16bit.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/ALU_16bit.v|
 !s101 -O0
 !i113 1
-Z9 o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact -O0
+Z7 o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact -O0
 n@a@l@u_16bit
 vBitCell
 R1
@@ -75,7 +75,7 @@ R5
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/BitCell.v|
 !s101 -O0
 !i113 1
-R9
+R7
 n@bit@cell
 vCLA4
 R0
@@ -103,13 +103,13 @@ R5
 R6
 n@c@l@a4
 vcpu
-R1
+!s110 1541479289
 !i10b 1
-!s100 jW7B]l8<T2cW0];h8@@l^0
-IUILfc@SDj^j3Y3G;V6X=71
+!s100 2j8RNl2Xh<fmoG@;gVMTN1
+I2?a`;9>i?QTH=9jj2og2H1
 R2
 R3
-w1539833110
+w1541479287
 8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/cpu.v
 FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/cpu.v
 L0 2
@@ -117,20 +117,20 @@ R4
 r1
 !s85 0
 31
-R5
+!s108 1541479289.000000
 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/cpu.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/cpu.v|
 !s101 -O0
 !i113 1
-R9
+R7
 vCPU_control
-R1
+!s110 1541479187
 !i10b 1
-!s100 3Q?5U;2oKl;[K1`m9d?E11
-IzZ@b@G3<nTVmF_EDl07o]3
+!s100 fHhI5fGhVLRUUM6;@]nW82
+Ic=IjIL>^J3:A<T^GmST>S2
 R2
 R3
-w1539830283
+w1541479185
 8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/CPU_control.v
 FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/CPU_control.v
 L0 1
@@ -138,15 +138,15 @@ R4
 r1
 !s85 0
 31
-R5
+!s108 1541479187.000000
 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/CPU_control.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/CPU_control.v|
 !s101 -O0
 !i113 1
-R9
+R7
 n@c@p@u_control
 vcpu_ptb
-Z10 !s110 1541279593
+Z8 !s110 1541279593
 !i10b 1
 !s100 ?EnZzc@n8=>^chjlz]n_k2
 I4fGJeMbbUdSDM<Hbf2CES1
@@ -160,12 +160,12 @@ R4
 r1
 !s85 0
 31
-Z11 !s108 1541279593.000000
+Z9 !s108 1541279593.000000
 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/project-phase2-testbench.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/project-phase2-testbench.v|
 !s101 -O0
 !i113 1
-R9
+R7
 vcpu_tb
 !s110 1541276130
 !i10b 1
@@ -186,30 +186,30 @@ r1
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/project-phase1-testbench.v|
 !s101 -O0
 !i113 1
-R9
+R7
 vdata_memory
-R10
+Z10 !s110 1541481941
 !i10b 1
-!s100 IR:68YA0W>eaF4k6n7bzX0
-IF?JR7G38NY;Ub2MDDmCY01
+!s100 >SWzIU8iP1T7:WMD5ncl81
+IVo7^mFJXM4I7bePnD:_jH1
 R2
 R3
-w1539728885
+w1541481885
 8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/data_memory.v
 FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/data_memory.v
-Z12 L0 31
+Z11 L0 31
 R4
 r1
 !s85 0
 31
-R11
+Z12 !s108 1541481941.000000
 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/data_memory.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/data_memory.v|
 !s101 -O0
 !i113 1
-R9
+R7
 vdff
-R10
+R8
 !i10b 1
 !s100 PV_CoVVQ]?nI;J@mj=Gn=3
 I9N;2K11C:Ic5:Clj4gaXL2
@@ -223,14 +223,14 @@ R4
 r1
 !s85 0
 31
-R11
+R9
 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/D-Flip-Flop.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/D-Flip-Flop.v|
 !s101 -O0
 !i113 1
-R9
+R7
 vflag_register
-R10
+R8
 !i10b 1
 !s100 o1=eP6haccaG1LNT]5CmV0
 Ig_4IPl@VZn`i0@mG3XR_^2
@@ -244,12 +244,12 @@ R4
 r1
 !s85 0
 31
-R11
+R9
 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/flag_register.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/flag_register.v|
 !s101 -O0
 !i113 1
-R9
+R7
 vfull_adder_1bit
 !s110 1541280061
 !i10b 1
@@ -270,30 +270,30 @@ r1
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/full_adder_1bit.v|
 !s101 -O0
 !i113 1
-R9
+R7
 vinstr_memory
 R10
 !i10b 1
-!s100 4aFdVoe7_8OKED1N?O1ak0
-IF_mCV9K1Z8hQPDc`gFc<?0
+!s100 c7MBlL]_MN:D8DHPJXzzd0
+ILel7F7Jd`C^X_?acY:HbE1
 R2
 R3
-w1539830254
+w1541481905
 8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/instr_memory.v
 FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/instr_memory.v
-R12
+R11
 R4
 r1
 !s85 0
 31
-R11
+R12
 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/instr_memory.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/instr_memory.v|
 !s101 -O0
 !i113 1
-R9
+R7
 vPADDSB_16bit
-R10
+R8
 !i10b 1
 !s100 5FXzgknmU;c^lzRV><?kn2
 Iom2`6Q[T_<L@fgkig395g0
@@ -307,12 +307,12 @@ R4
 r1
 !s85 0
 31
-R11
+R9
 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/PSA_16bit.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/PSA_16bit.v|
 !s101 -O0
 !i113 1
-R9
+R7
 n@p@a@d@d@s@b_16bit
 vpaddSb_4bit
 !s110 1541280124
@@ -334,16 +334,16 @@ r1
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/paddSb_4bit.v|
 !s101 -O0
 !i113 1
-R9
+R7
 npadd@sb_4bit
 vPC_control
-R10
+!s110 1541476156
 !i10b 1
 !s100 KOUS^=`1i`h1^VJQb_S3o3
 IBiJVJ[f<?VUinP[bNc2Ve3
 R2
 R3
-w1541279456
+w1541351980
 8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/PC_control.v
 FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/PC_control.v
 L0 2
@@ -351,15 +351,15 @@ R4
 r1
 !s85 0
 31
-R11
+!s108 1541476156.000000
 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/PC_control.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/PC_control.v|
 !s101 -O0
 !i113 1
-R9
+R7
 n@p@c_control
 vpc_reg
-R10
+R8
 !i10b 1
 !s100 X7g<2BK?WR9>k>R0BE15N3
 IMWe<lGoGXHoQWh?[?`N_b2
@@ -373,14 +373,14 @@ R4
 r1
 !s85 0
 31
-R11
+R9
 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/pc_reg.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/pc_reg.v|
 !s101 -O0
 !i113 1
-R9
+R7
 vReadDecoder_4_16
-R10
+R8
 !i10b 1
 !s100 W3gJTEPjA6haTajzaJLBA0
 I@aIQ7W6mh`]?nLRGF5_C^2
@@ -394,15 +394,15 @@ R4
 r1
 !s85 0
 31
-R11
+R9
 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/ReadDecoder_4_16.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/ReadDecoder_4_16.v|
 !s101 -O0
 !i113 1
-R9
+R7
 n@read@decoder_4_16
 vRED
-R7
+!s110 1541279889
 !i10b 1
 !s100 S@QAV9R:`9zHZeT[KW2im1
 I62;3J`:i8UH7A=_gY^HNV2
@@ -416,15 +416,15 @@ R4
 r1
 !s85 0
 31
-R8
+!s108 1541279889.000000
 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/RED.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/RED.v|
 !s101 -O0
 !i113 1
-R9
+R7
 n@r@e@d
 vRegister
-R10
+R8
 !i10b 1
 !s100 AC[o^d1CM1S=o0Eefi^W91
 ITIdDgBXAKmTN4aemQzMj@1
@@ -438,21 +438,21 @@ R4
 r1
 !s85 0
 31
-R11
+R9
 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/Register.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/Register.v|
 !s101 -O0
 !i113 1
-R9
+R7
 n@register
 vRegisterFile
-R10
+!s110 1541479016
 !i10b 1
-!s100 EWBdMbVJIR[@<>SV2^^A[2
-IjQ:i_IL]?KZT7_Ch6aKd<3
+!s100 >N1H;0K`<Aa?Af1NbNCMd2
+IL^mVS94>G4Z0zzoFISQ=n0
 R2
 R3
-w1541275893
+w1541479013
 8C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/RegisterFile.v
 FC:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/RegisterFile.v
 L0 1
@@ -460,15 +460,15 @@ R4
 r1
 !s85 0
 31
-R11
+!s108 1541479016.000000
 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/RegisterFile.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/RegisterFile.v|
 !s101 -O0
 !i113 1
-R9
+R7
 n@register@file
 vShifter
-R10
+R8
 !i10b 1
 !s100 JHmcOkkIO<?TVm:_]HIM_2
 INJ7Im82>JfIm1Lcb?k_Mn0
@@ -482,15 +482,15 @@ R4
 r1
 !s85 0
 31
-R11
+R9
 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/Shifter.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/Shifter.v|
 !s101 -O0
 !i113 1
-R9
+R7
 n@shifter
 vWriteDecoder_4_16
-R10
+R8
 !i10b 1
 !s100 Ek5nSJ1ggF3NeH?dz9KLg2
 I5>d@?OW0o;MEkc:^6^CZE3
@@ -504,10 +504,10 @@ R4
 r1
 !s85 0
 31
-R11
+R9
 !s107 C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/WriteDecoder_4_16.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/shubh/Dropbox/Madison/Junior/Fall 2018/ECE 552/Project/Phase 2/WriteDecoder_4_16.v|
 !s101 -O0
 !i113 1
-R9
+R7
 n@write@decoder_4_16

@@ -64,15 +64,19 @@ assign rd = instr[11:8];
 //select which register to write to
 assign destReg = (RegDst) ? rd : rt;
 //select immediate
-assign immediate = (MemRead | MemWrite) ? {{12{1'b0}},instr[3:0]} << 1 : {{12{1'b0}},instr[3:0]};
+assign immediate = (MemRead | MemWrite) ? {{12{1'b0}},instr[3:0]} << 1 :
+                   (Lower) ? {{8{1'b0}},instr[7:0]} :
+                   (Higher) ? (instr[7:0] << 8) : {{12{1'b0}},instr[3:0]};
+
 //select input for ALU
-assign aluA = (MemRead | MemWrite) ? reg1 & 0xFFFE : reg1;
+assign aluA = (MemRead | MemWrite) ? reg1 & 16'hfffe : 
+              (Lower) ? (reg1 & 16'hff00) :
+              (Higher) ? (reg1 & 16'h00ff) : reg1;
+
 assign aluB = (ALUSrc) ? immediate : reg2;
-//if LLB or LHB, then write the corresponding byte to reg, if MemtoReg, then write memory output to reg,
+
 //if PCS, then write next_pc value to reg, otherwise default to alu output
-assign regData = (Lower) ? (reg1 & 16'hff00) | instr[7:0] : 
-                (Higher) ? (reg1 & 16'h00ff) | (instr[7:0] << 8) :
-              (MemtoReg) ? memData : (PCS) ? next_pc : aluOut;
+assign regData = (MemtoReg) ? memData : (PCS) ? next_pc : aluOut;
 //select branch type
 assign brAddr = (Br) ? reg1 : next_pc;
 
