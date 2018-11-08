@@ -16,8 +16,8 @@ reg [15:0] target_addr;
 wire [15:0] sext = {{7{I[8]}},I[8:0]};
 wire [15:0] lshift;
 
-CLA_16bit ntaken_add(.A(PC_in), .B(16'h0002), .Sum(notTaken), .Cout(), .ovfl(OvflSub), .sub(1'b0));
-CLA_16bit taken_add(.A(notTaken), .B(lshift), .Sum(taken), .Cout(), .ovfl(OvflAdd), .sub(1'b0));
+ADDSUB ntaken_add(.a(PC_in), .b(16'h0002), .sum(notTaken), .ovfl(OvflSub), .sub(1'b0));
+ADDSUB taken_add(.a(notTaken), .b(lshift), .sum(taken), .ovfl(OvflAdd), .sub(1'b0));
 
 assign lshift = sext << 1;
 

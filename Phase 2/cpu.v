@@ -31,7 +31,6 @@ wire [15:0] memData;            //data output from memory
 wire [15:0] regData;            //data to write to register
 wire [15:0] aluA, aluB;         //ALU inputs
 wire [15:0] immediate;          //immediate to be passed into ALU
-wire [15:0] memAddr;            //memory address
 wire [15:0] brAddr;             //address of branch;
 
 //flag_register
@@ -65,8 +64,7 @@ assign rd = instr[11:8];
 assign destReg = (RegDst) ? rd : rt;
 //select immediate
 assign immediate = (MemRead | MemWrite) ? {{12{1'b0}},instr[3:0]} << 1 :
-                   (Lower) ? {{8{1'b0}},instr[7:0]} :
-                   (Higher) ? (instr[7:0] << 8) : {{12{1'b0}},instr[3:0]};
+                   (Lower) ? {{8{1'b0}},instr[7:0]} : (instr[7:0] << 8);
 
 //select input for ALU
 assign aluA = (MemRead | MemWrite) ? reg1 & 16'hfffe : 

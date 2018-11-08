@@ -79,7 +79,7 @@ always @(*) begin
   4'b1010: begin        //LLB
     assign r_hlt = 0;
     assign r_RegDst = 1;
-    assign r_ALUSrc = 0;
+    assign r_ALUSrc = 1;
     assign r_MemRead = 0;
     assign r_MemWrite = 0;
     assign r_MemtoReg = 0;
@@ -93,7 +93,7 @@ always @(*) begin
   4'b1011: begin        //LHB
     assign r_hlt = 0;
     assign r_RegDst = 1;
-    assign r_ALUSrc = 0;
+    assign r_ALUSrc = 1;
     assign r_MemRead = 0;
     assign r_MemWrite = 0;
     assign r_MemtoReg = 0;

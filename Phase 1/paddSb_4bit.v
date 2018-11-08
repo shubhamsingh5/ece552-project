@@ -8,10 +8,10 @@ wire [3:0] Sumi;
 wire [3:0] Binput;
 wire [3:0] C;
 assign C[0] = 1'b0;
-full_adder_1bit FA0 (.c_out(C[1]),.s(Sumi[0]),.a(A[0]), .b(B[0]),.c_in(C[0])); //Example of using the one bit full adder(which you must also design)
-full_adder_1bit FA1 (.c_out(C[2]),.s(Sumi[1]),.a(A[1]), .b(B[1]),.c_in(C[1]));
-full_adder_1bit FA2 (.c_out(C[3]),.s(Sumi[2]),.a(A[2]), .b(B[2]),.c_in(C[2]));
-full_adder_1bit FA3 (.c_out(),.s(Sumi[3]),.a(A[3]), .b(B[3]),.c_in(C[3]));
+full_adder_1bit FA0 (.cout(C[1]),.sum(Sumi[0]),.a(A[0]), .b(B[0]),.cin(C[0])); //Example of using the one bit full adder(which you must also design)
+full_adder_1bit FA1 (.cout(C[2]),.sum(Sumi[1]),.a(A[1]), .b(B[1]),.cin(C[1]));
+full_adder_1bit FA2 (.cout(C[3]),.sum(Sumi[2]),.a(A[2]), .b(B[2]),.cin(C[2]));
+full_adder_1bit FA3 (.cout(),.sum(Sumi[3]),.a(A[3]), .b(B[3]),.cin(C[3]));
 assign povfl = (~A[3]) & (~B[3]) & (Sumi[3]); //A and B positive, Sum negative
 assign novfl = (A[3] & B[3] & (~Sumi[3]));	//A and B negative, sum positive
 assign Ovfl = povfl|novfl; 

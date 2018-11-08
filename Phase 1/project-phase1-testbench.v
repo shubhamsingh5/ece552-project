@@ -37,10 +37,10 @@ module cpu_tb();
    /* Setup */
    initial begin
       $display("Hello world...simulation starting");
-      $display("See verilogsim.log and verilogsim.trace for output");
+      $display("See verilogsim_3.log and verilogsim_3.trace for output");
       inst_count = 0;
-      trace_file = $fopen("verilogsim.trace");
-      sim_log_file = $fopen("verilogsim.log");
+      trace_file = $fopen("verilogsim_3.trace");
+      sim_log_file = $fopen("verilogsim_3.log");
       
    end
 
