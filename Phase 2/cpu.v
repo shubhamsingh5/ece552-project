@@ -6,79 +6,109 @@ output hlt,
 output [15:0] pc
 ); 
 
-wire [15:0] curr_pc, next_pc;
 
-//control signals
-wire halt;                       //signal to halt PC increment
-wire RegDst;                    //select destination register
-wire ALUSrc;                    //select ALU input
-wire MemRead;                   //enable read from memory
-wire MemWrite;                  //enable writing to memory
-wire MemtoReg;                  //data to be written into a register
-wire RegWrite;                  //write enable for register
-wire Lower;                     //select for LLB
-wire Higher;                    //select for LHB
-wire BEn;                       //branch enable
-wire Br;                        //branch type
-wire PCS;                       //PCS
 
+//pipeline wires
+wire [15:0] curr_pc, next_pc, if_id_npc, id_ex_npc, ex_mem_npc, mem_wb_npc;
 wire [2:0] flag, ccc, en;
-wire [3:0] rs, rt, rd, destReg; //register file inputs
-wire [15:0] instr;              //instruction
-wire [15:0] reg1, reg2;         //register file outputs
-wire [15:0] aluOut;             //output of ALU
-wire [15:0] memData;            //data output from memory
-wire [15:0] regData;            //data to write to register
-wire [15:0] aluA, aluB;         //ALU inputs
-wire [15:0] immediate;          //immediate to be passed into ALU
-wire [15:0] brAddr;             //address of branch;
+wire [3:0] rs, rt, rd, destReg, id_ex_wreg, ex_mem_wreg, mem_wb_wreg;                                         //register file inputs
+wire [15:0] instr, instr_if_id;                                         //instruction
+wire [15:0] if_id_reg1, if_id_reg2, id_ex_reg1, id_ex_reg2, ex_mem_reg2;           //register file outputs
+wire [15:0] ex_aluout, ex_mem_aluout, mem_wb_aluout;                                                     //output of ALU
+wire [15:0] mem_memdata;                                                    //data output from memory
+wire [15:0] wb_regdata;                                                    //data to write to register
+wire [15:0] aluA, aluB;                                                 //ALU inputs
+wire [15:0] id_imm, id_ex_immm;                                                  //immediate to be passed into ALU
+wire [15:0] brAddr;                                                     //address of branch;
 
-//flag_register
-flag_register fr(.clk(clk), .rst(~rst_n), .flag_in(flag), .flag_out(ccc), .en(en));
+//pipeline control signals
+wire stall, flush, if_flush;
+wire if_id_halt;                  //signal to halt PC increment
+wire if_id_RegDst, id_ex_RegDst;                                        //select destination register
+wire if_id_ALUSrc, id_ex_ALUSrc;                                        //select ALU input
+wire if_id_MemRead, id_ex_MemRead, ex_mem_MemRead;                      //enable read from memory
+wire if_id_MemWrite, id_ex_MemWrite, ex_mem_MemWrite;                   //enable writing to memory
+wire if_id_MemtoReg, id_ex_MemtoReg, ex_mem_MemtoReg, mem_wb_MemtoReg;  //data to be written into a register
+wire if_id_RegWrite, id_ex_RegWrite, ex_mem_RegWrite, mem_wb_RegWrite;  //write enable for register
+wire if_id_Lower, id_ex_Lower;                                          //select for LLB
+wire if_id_Higher, id_ex_Higher;                                        //select for LHB
+wire if_id_BEn, id_ex_BEn, ex_mem_BEn, mem_wb_BEn;                      //branch enable
+wire if_id_Br, id_ex_Br, ex_mem_Br, mem_wb_Br;                          //branch type
+wire if_id_PCS, id_ex_PCS, ex_mem_PCS, mem_wb_PCS;                      //PCS
+
+
+
+//select branch type
+assign brAddr = (if_id_Br) ? if_id_reg1 : next_pc;
+assign if_flush = ~rst_n | flush;
+assign hlt = if_id_halt;
+assign pc = curr_pc;
+
+
+//*********************************************    IF STAGE      ********************************************************************
+//pipeline register
+IF_ID_latch if_id(.clk(clk), .rst(~if_flush), .en(~stall), .npc_in(brAddr), .instr_in(instr), .npc_out(if_id_npc), .instr_out(instr_if_id));
 //pc register
-pc_reg pcReg(.clk(clk), .rst(~rst_n), .D(brAddr), .WriteEnable(~halt), .q(curr_pc));
+pc_reg pcReg(.clk(clk), .rst(~rst_n), .D(brAddr), .WriteEnable(~if_id_halt), .q(curr_pc));
 //instruction memory
 instr_memory iMem(.data_out(instr), .addr(curr_pc), .clk(clk), .rst(~rst_n));
-//data memory
-data_memory dMem(.data_out(memData), .data_in(reg2), .addr(aluOut), .enable(MemRead), .wr(MemWrite), .clk(clk), .rst(~rst_n));
-//register file
-RegisterFile rf(.clk(clk), .rst(~rst_n), .SrcReg1(rs), .SrcReg2(rt), .DstReg(destReg), .WriteReg(RegWrite), 
-                .DstData(regData), .SrcData1(reg1), .SrcData2(reg2));
 //pc control unit
 PC_control pcControl(.B(BEn), .C(instr[11:9]), .I(instr[8:0]), .F(flag), .PC_in(curr_pc), .PC_out(next_pc));
+
+
+//***********************************************************************************************************************************
+
+
+//*********************************************    ID STAGE      ********************************************************************
+//pipeline latch
+ID_EX_Latch id_ex(.clk(clk), .rst(~rst_n), .en(~stall), .RegDst_in(if_id_RegDst), .ALUSrc_in(if_id_ALUSrc), .MemRead_in(if_id_MemRead), .MemWrite_in(if_id_MemWrite), .MemtoReg_in(if_id_MemtoReg),
+                    .RegWrite_in(if_id_RegWrite), .Lower_in(if_id_Lower), .Higher_in(if_id_Higher), .BEn_in(if_id_BEn), .Br_in(if_id_Br), .PCS_in(if_id_PCS), .npc_in(if_id_npc), .wreg_in(destReg), .a_in(if_id_reg1), .b_in(if_id_reg2), .imm_in(id_imm),
+                    .RegDst_out(id_ex_RegDst), .ALUSrc_out(id_ex_ALUSrc), .MemRead_out(id_ex_MemRead), .MemWrite_out(id_ex_MemWrite), .MemtoReg_out(id_ex_MemtoReg), 
+                    .RegWrite_out(id_ex_RegWrite), .Lower_out(id_ex_Lower), .Higher_out(id_ex_Higher), .BEn_out(id_ex_BEn), .Br_out(id_ex_Br), .PCS_out(id_ex_PCS), .npc_out(id_ex_npc), .wreg_out(id_ex_wreg), .a_out(id_ex_reg1), .b_out(id_ex_reg2), .imm_out(id_ex_immm));
+//register file
+RegisterFile rf(.clk(clk), .rst(~rst_n), .SrcReg1(rs), .SrcReg2(rt), .DstReg(mem_wb_wreg), .WriteReg(mem_wb_RegWrite), 
+                .DstData(wb_regdata), .SrcData1(if_id_reg1), .SrcData2(if_id_reg2));
 //cpu control unit
-CPU_control cpuControl(.opc(instr[15:12]), .halt(halt), .RegDst(RegDst), .ALUSrc(ALUSrc), .MemRead(MemRead), 
-                       .MemWrite(MemWrite), .MemtoReg(MemtoReg), .RegWrite(RegWrite), .Lower(Lower), 
-                       .Higher(Higher), .BEn(BEn), .Br(Br), .PCS(PCS));
+CPU_control cpuControl(.opc(instr_if_id[15:12]), .halt(if_id_halt), .RegDst(if_id_RegDst), .ALUSrc(if_id_ALUSrc), .MemRead(if_id_MemRead), 
+                       .MemWrite(if_id_MemWrite), .MemtoReg(if_id_MemtoReg), .RegWrite(if_id_RegWrite), .Lower(if_id_Lower), 
+                       .Higher(if_id_Higher), .BEn(if_id_BEn), .Br(if_id_Br), .PCS(if_id_PCS));
+//flag_register
+flag_register fr(.clk(clk), .rst(~rst_n), .flag_in(flag), .flag_out(ccc), .en(en));
+
+assign rs = (if_id_Lower | if_id_Higher) ? rd : instr_if_id[7:4];
+assign rt = (if_id_MemRead | if_id_MemWrite) ? instr_if_id[11:8] : instr_if_id[3:0];
+assign rd = instr_if_id[11:8];
+assign destReg = (if_id_RegDst) ? rd : rt;
+assign id_imm = (if_id_MemRead | if_id_MemWrite) ? {{12{1'b0}},instr_if_id[3:0]} << 1 :
+                   (if_id_Lower) ? {{8{1'b0}},instr_if_id[7:0]} : (instr_if_id[7:0] << 8);
+
+//***********************************************************************************************************************************
+
+
+//*********************************************    EX STAGE      ********************************************************************
+EX_MEM_Latch ex_mem(.clk(clk), .rst(~rst_n), .en(~stall), .wreg_in(id_ex_wreg), .MemRead_in(id_ex_MemRead), .MemWrite_in(id_ex_MemWrite), .MemtoReg_in(id_ex_MemtoReg), .RegWrite_in(id_ex_RegWrite), .PCS_in(id_ex_PCS), .npc_in(id_ex_npc), .b_in(id_ex_reg2), .alu_in(ex_aluout), 
+                    .wreg_out(ex_mem_wreg), .MemRead_out(ex_mem_MemRead), .MemWrite_out(ex_mem_MemWrite), .MemtoReg_out(ex_mem_MemtoReg), .RegWrite_out(ex_mem_RegWrite), .PCS_out(ex_mem_PCS), .npc_out(ex_mem_npc), .b_out(ex_mem_reg2), .alu_out(ex_mem_aluout));
 //alu for execution
-ALU_16bit aluEx(.ALU_Out(aluOut), .ALU_In1(aluA), .ALU_In2(aluB), .Opcode(instr[15:12]), .Flags(flag), .en(en));
-
-//inputs
-assign rs = (Lower | Higher) ? rd : instr[7:4];
-assign rt = (MemRead | MemWrite) ? instr[11:8] : instr[3:0];
-assign rd = instr[11:8];
-
-//muxes
-//if LLB or LHB, then set rs to be rd to allow reading
-//select which register to write to
-assign destReg = (RegDst) ? rd : rt;
-//select immediate
-assign immediate = (MemRead | MemWrite) ? {{12{1'b0}},instr[3:0]} << 1 :
-                   (Lower) ? {{8{1'b0}},instr[7:0]} : (instr[7:0] << 8);
+ALU_16bit aluEx(.ALU_Out(ex_aluout), .ALU_In1(aluA), .ALU_In2(aluB), .Opcode(instr[15:12]), .Flags(flag), .en(en));
 
 //select input for ALU
-assign aluA = (MemRead | MemWrite) ? reg1 & 16'hfffe : 
-              (Lower) ? (reg1 & 16'hff00) :
-              (Higher) ? (reg1 & 16'h00ff) : reg1;
+assign aluA = (id_ex_MemRead | id_ex_MemWrite) ? id_ex_reg1 & 16'hfffe : 
+              (id_ex_Lower) ? (id_ex_reg1 & 16'hff00) :
+              (id_ex_Higher) ? (id_ex_reg1 & 16'h00ff) : id_ex_reg1;
+assign aluB = (id_ex_ALUSrc) ? id_ex_immm : id_ex_reg2;
 
-assign aluB = (ALUSrc) ? immediate : reg2;
+//***********************************************************************************************************************************
+
+
+//*********************************************    MEM STAGE      ********************************************************************
+MEM_WB_Latch mem_wb(.clk(clk), .rst(~rst_n), .en(~stall), .wreg_in(ex_mem_wreg), .MemtoReg_in(ex_mem_MemtoReg), .RegWrite_in(ex_mem_RegWrite), .PCS_in(ex_mem_PCS), .npc_in(ex_mem_npc), .mem_in(mem_memdata), .alu_in(ex_mem_aluout), 
+                    .wreg_out(mem_wb_wreg), .MemtoReg_out(mem_wb_MemtoReg), .RegWrite_out(mem_wb_RegWrite), .PCS_out(mem_wb_PCS), .npc_out(mem_wb_npc), .mem_out(mem_wb_memdata), .alu_out(mem_wb_aluout));
+//data memory
+data_memory dMem(.data_out(mem_memdata), .data_in(ex_mem_reg2), .addr(ex_mem_aluout), .enable(ex_mem_MemRead), .wr(ex_mem_MemWrite), .clk(clk), .rst(~rst_n));
 
 //if PCS, then write next_pc value to reg, otherwise default to alu output
-assign regData = (MemtoReg) ? memData : (PCS) ? next_pc : aluOut;
-//select branch type
-assign brAddr = (Br) ? reg1 : next_pc;
+assign wb_regdata = (mem_wb_MemtoReg) ? mem_wb_memdata : (mem_wb_PCS) ? mem_wb_npc : mem_wb_aluout;
 
-assign hlt = halt;
-assign pc = curr_pc;
+//***********************************************************************************************************************************
 
 endmodule
