@@ -12,6 +12,7 @@ output [15:0] pc
 wire [15:0] curr_pc, next_pc, if_id_npc, id_ex_npc, ex_mem_npc, mem_wb_npc;
 wire [2:0] flag, ccc, en;
 wire [3:0] rs, rt, rd, destReg, id_ex_wreg, ex_mem_wreg, mem_wb_wreg;                                         //register file inputs
+wire [3:0] ex_mem_opc;
 wire [15:0] instr, instr_if_id;                                         //instruction
 wire [15:0] if_id_reg1, if_id_reg2, id_ex_reg1, id_ex_reg2, ex_mem_reg2;           //register file outputs
 wire [15:0] ex_aluout, ex_mem_aluout, mem_wb_aluout;                                                     //output of ALU
@@ -39,6 +40,8 @@ wire if_id_PCS, id_ex_PCS, ex_mem_PCS, mem_wb_PCS;                      //PCS
 
 
 //select branch type
+assign stall = 1'b0;
+assign flush = 1'b0;
 assign brAddr = (if_id_Br) ? if_id_reg1 : next_pc;
 assign if_flush = ~rst_n | flush;
 assign hlt = if_id_halt;
@@ -47,13 +50,13 @@ assign pc = curr_pc;
 
 //*********************************************    IF STAGE      ********************************************************************
 //pipeline register
-IF_ID_latch if_id(.clk(clk), .rst(~if_flush), .en(~stall), .npc_in(brAddr), .instr_in(instr), .npc_out(if_id_npc), .instr_out(instr_if_id));
+IF_ID_latch if_id(.clk(clk), .rst(if_flush), .en(~stall), .npc_in(brAddr), .instr_in(instr), .npc_out(if_id_npc), .instr_out(instr_if_id));
 //pc register
 pc_reg pcReg(.clk(clk), .rst(~rst_n), .D(brAddr), .WriteEnable(~if_id_halt), .q(curr_pc));
 //instruction memory
 instr_memory iMem(.data_out(instr), .addr(curr_pc), .clk(clk), .rst(~rst_n));
 //pc control unit
-PC_control pcControl(.B(BEn), .C(instr[11:9]), .I(instr[8:0]), .F(flag), .PC_in(curr_pc), .PC_out(next_pc));
+PC_control pcControl(.B(if_id_BEn), .C(instr[11:9]), .I(instr[8:0]), .F(flag), .PC_in(curr_pc), .PC_out(next_pc));
 
 
 //***********************************************************************************************************************************
@@ -86,10 +89,10 @@ assign id_imm = (if_id_MemRead | if_id_MemWrite) ? {{12{1'b0}},instr_if_id[3:0]}
 
 
 //*********************************************    EX STAGE      ********************************************************************
-EX_MEM_Latch ex_mem(.clk(clk), .rst(~rst_n), .en(~stall), .wreg_in(id_ex_wreg), .MemRead_in(id_ex_MemRead), .MemWrite_in(id_ex_MemWrite), .MemtoReg_in(id_ex_MemtoReg), .RegWrite_in(id_ex_RegWrite), .PCS_in(id_ex_PCS), .npc_in(id_ex_npc), .b_in(id_ex_reg2), .alu_in(ex_aluout), 
-                    .wreg_out(ex_mem_wreg), .MemRead_out(ex_mem_MemRead), .MemWrite_out(ex_mem_MemWrite), .MemtoReg_out(ex_mem_MemtoReg), .RegWrite_out(ex_mem_RegWrite), .PCS_out(ex_mem_PCS), .npc_out(ex_mem_npc), .b_out(ex_mem_reg2), .alu_out(ex_mem_aluout));
+EX_MEM_Latch ex_mem(.clk(clk), .rst(~rst_n), .en(~stall), .wreg_in(id_ex_wreg), .MemRead_in(id_ex_MemRead), .MemWrite_in(id_ex_MemWrite), .MemtoReg_in(id_ex_MemtoReg), .RegWrite_in(id_ex_RegWrite), .PCS_in(id_ex_PCS), .npc_in(id_ex_npc), .b_in(id_ex_reg2), .alu_in(ex_aluout), .opcode_in(instr_if_id[15:12]),
+                    .wreg_out(ex_mem_wreg), .MemRead_out(ex_mem_MemRead), .MemWrite_out(ex_mem_MemWrite), .MemtoReg_out(ex_mem_MemtoReg), .RegWrite_out(ex_mem_RegWrite), .PCS_out(ex_mem_PCS), .npc_out(ex_mem_npc), .b_out(ex_mem_reg2), .alu_out(ex_mem_aluout), .opcode_out(ex_mem_opc));
 //alu for execution
-ALU_16bit aluEx(.ALU_Out(ex_aluout), .ALU_In1(aluA), .ALU_In2(aluB), .Opcode(instr[15:12]), .Flags(flag), .en(en));
+ALU_16bit aluEx(.ALU_Out(ex_aluout), .ALU_In1(aluA), .ALU_In2(aluB), .Opcode(ex_mem_opc), .Flags(flag), .en(en));
 
 //select input for ALU
 assign aluA = (id_ex_MemRead | id_ex_MemWrite) ? id_ex_reg1 & 16'hfffe : 
