@@ -15,7 +15,7 @@ wire [3:0] rs, rt, rd, destReg, id_ex_wreg, ex_mem_wreg, mem_wb_wreg;           
 wire [15:0] instr, instr_if_id;                                         //instruction
 wire [15:0] if_id_reg1, if_id_reg2, id_ex_reg1, id_ex_reg2, ex_mem_reg2;           //register file outputs
 wire [15:0] ex_aluout, ex_mem_aluout, mem_wb_aluout;                                                     //output of ALU
-wire [15:0] mem_memdata;                                                    //data output from memory
+wire [15:0] mem_memdata, mem_wb_memdata;                                                    //data output from memory
 wire [15:0] wb_regdata;                                                    //data to write to register
 wire [15:0] aluA, aluB;                                                 //ALU inputs
 wire [15:0] id_imm, id_ex_immm;                                                  //immediate to be passed into ALU
