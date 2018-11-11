@@ -1,18 +1,25 @@
-module ID_EX_Latch(clk, rst, en, RegDst_in, ALUSrc_in, MemRead_in, MemWrite_in, MemtoReg_in,
-                    RegWrite_in, Lower_in, Higher_in, BEn_in, Br_in, PCS_in, npc_in, wreg_in, a_in, b_in, imm_in,
-                    RegDst_out, ALUSrc_out, MemRead_out, MemWrite_out, MemtoReg_out, 
-                    RegWrite_out, Lower_out, Higher_out, BEn_out, Br_out, PCS_out, npc_out, wreg_out, a_out, b_out, imm_out);
+module ID_EX_Latch(clk, rst, en, halt_in, RegDst_in, ALUSrc_in, MemRead_in, MemWrite_in, MemtoReg_in,
+                    RegWrite_in, Lower_in, Higher_in, BEn_in, Br_in, PCS_in, regs_in, npc_in, wreg_in, a_in, b_in, imm_in,
+                    halt_out, RegDst_out, ALUSrc_out, MemRead_out, MemWrite_out, MemtoReg_out, 
+                    RegWrite_out, Lower_out, Higher_out, BEn_out, Br_out, PCS_out, regs_fwd, npc_out, wreg_out, a_out, b_out, imm_out);
 
-input clk, rst, en, RegDst_in, ALUSrc_in, MemRead_in, MemWrite_in, MemtoReg_in,
+input clk, rst, en, halt_in, RegDst_in, ALUSrc_in, MemRead_in, MemWrite_in, MemtoReg_in,
                     RegWrite_in, Lower_in, Higher_in, BEn_in, Br_in, PCS_in;
 input [3:0] wreg_in;
+input [7:0] regs_in;
 input [15:0] npc_in, a_in, b_in, imm_in;
 
-output RegDst_out, ALUSrc_out, MemRead_out, MemWrite_out, MemtoReg_out, 
+output halt_out, RegDst_out, ALUSrc_out, MemRead_out, MemWrite_out, MemtoReg_out, 
                     RegWrite_out, Lower_out, Higher_out, BEn_out, Br_out, PCS_out;
 output [3:0] wreg_out;
+output [7:0] regs_fwd;
 output [15:0] npc_out, a_out, b_out, imm_out;
 
+wire [15:0] zext_regs_in, zext_regs_out;
+
+assign zext_regs_in = {{8{1'b0}},regs_in};
+
+dff halt(.q(halt_out), .d(halt_in), .wen(en), .clk(clk), .rst(rst));
 dff regdst(.q(RegDst_out), .d(RegDst_in), .wen(en), .clk(clk), .rst(rst));
 dff alusrc(.q(ALUSrc_out), .d(ALUSrc_in), .wen(en), .clk(clk), .rst(rst));
 dff memread(.q(MemRead_out), .d(MemRead_in), .wen(en), .clk(clk), .rst(rst));
@@ -34,6 +41,8 @@ Register npc_reg(.clk(clk), .rst(rst), .WriteReg(en), .ReadEnable1(1'b1), .ReadE
 Register a_reg(.clk(clk), .rst(rst), .WriteReg(en), .ReadEnable1(1'b1), .ReadEnable2(1'b0), .Bitline1(a_out), .Bitline2(), .D(a_in));
 Register b_reg(.clk(clk), .rst(rst), .WriteReg(en), .ReadEnable1(1'b1), .ReadEnable2(1'b0), .Bitline1(b_out), .Bitline2(), .D(b_in));
 Register imm_reg(.clk(clk), .rst(rst), .WriteReg(en), .ReadEnable1(1'b1), .ReadEnable2(1'b0), .Bitline1(imm_out), .Bitline2(), .D(imm_in));
+Register regs_reg(.clk(clk), .rst(rst), .WriteReg(en), .ReadEnable1(1'b1), .ReadEnable2(1'b0), .Bitline1(zext_regs_out), .Bitline2(), .D(zext_regs_in));
 
+assign regs_fwd = zext_regs_out[7:0];
 
 endmodule

@@ -1,13 +1,14 @@
-module MEM_WB_Latch(clk, rst, en, wreg_in, MemtoReg_in, RegWrite_in, PCS_in, npc_in, mem_in, alu_in, 
-                    wreg_out, MemtoReg_out, RegWrite_out, PCS_out, npc_out, mem_out, alu_out);
+module MEM_WB_Latch(clk, rst, en, wreg_in, halt_in, MemtoReg_in, RegWrite_in, PCS_in, npc_in, mem_in, alu_in, 
+                    wreg_out, halt_out, MemtoReg_out, RegWrite_out, PCS_out, npc_out, mem_out, alu_out);
 
-input clk, rst, en, MemtoReg_in, RegWrite_in, PCS_in;
+input clk, rst, en, halt_in, MemtoReg_in, RegWrite_in, PCS_in;
 input [3:0] wreg_in;
 input [15:0] npc_in, mem_in, alu_in;
-output MemtoReg_out, RegWrite_out, PCS_out;
+output halt_out, MemtoReg_out, RegWrite_out, PCS_out;
 output [3:0] wreg_out;
 output [15:0] npc_out, mem_out, alu_out;
 
+dff halt(.q(halt_out), .d(halt_in), .wen(en), .clk(clk), .rst(rst));
 dff memtoreg(.q(MemtoReg_out), .d(MemtoReg_in), .wen(en), .clk(clk), .rst(rst));
 dff regwrite(.q(RegWrite_out), .d(RegWrite_in), .wen(en), .clk(clk), .rst(rst));
 dff pcs(.q(PCS_out), .d(PCS_in), .wen(en), .clk(clk), .rst(rst));
