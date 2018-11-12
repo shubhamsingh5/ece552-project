@@ -5,11 +5,12 @@ input [2:0] C,  //F=[N,Z,V]
 input [8:0] I,
 input [2:0] F,
 input [15:0] PC_in,
+output bTaken,
 output [15:0] PC_out
 );
 
 wire [15:0] taken, notTaken;
-
+reg b;
 
 reg [15:0] target_addr;
 
@@ -23,28 +24,47 @@ assign lshift = sext << 1;
 
 always @(*) begin
   case (C)
-    3'b000: //not equal (Z=0)
+    3'b000: begin //not equal (Z=0)
         target_addr = (F[1]) ? notTaken : taken;
-    3'b001: //equal (Z=1)
+        b = (F[1]) ? 1'b0 : 1'b1;
+        end
+    3'b001: begin //equal (Z=1)
         target_addr = (F[1]) ? taken : notTaken;
-    3'b010: //greater than (Z=N=0)
+        b = (F[1]) ? taken : 1'b0;
+        end
+    3'b010: begin //greater than (Z=N=0)
         target_addr = (F[2] & F[1]) ? notTaken : taken;
-    3'b011: //less than (N=1)
+        b = (F[2] & F[1]) ? 1'b0 : 1'b1;
+        end
+    3'b011: begin //less than (N=1)
         target_addr = (F[2]) ? taken : notTaken;
-    3'b100: //Greater than or equal (Z=1 or Z=N=0)
+        b = (F[2]) ? 1'b1 : 1'b0;
+        end
+    3'b100: begin //Greater than or equal (Z=1 or Z=N=0)
         target_addr = (F[1] | ~F[2] | ~F[1]) ? taken : notTaken;
-    3'b101: //less than or equal (N = 1 or Z = 1)
+        b = (F[1] | ~F[2] | ~F[1]) ? 1'b1 : 1'b0;
+        end
+    3'b101: begin //less than or equal (N = 1 or Z = 1)
         target_addr = (F[1] | F[2]) ? taken : notTaken;
-    3'b110: //overflow (V = 1)
+        b = (F[1] | F[2]) ? 1'b1 : 1'b0;
+        end
+    3'b110: begin //overflow (V = 1)
         target_addr = (F[0]) ? taken : notTaken;
-    3'b111: //unconditional
+        b = (F[0]) ? 1'b1 : 1'b0;
+        end
+    3'b111: begin //unconditional
         target_addr = taken;
-    default: 
+        b = 1'b1;
+        end
+    default: begin 
         target_addr = notTaken;
+        b = 1'b0;
+        end
   endcase
 end
 
 
 assign PC_out = B ? target_addr : notTaken;
+assign bTaken = b;
 
 endmodule
