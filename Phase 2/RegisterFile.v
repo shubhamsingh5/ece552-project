@@ -33,7 +33,7 @@ Register reg15(.clk(clk), .rst(rst), .D(DstData), .WriteReg(dcd_out3[15]), .Read
 
 	
 	
-assign SrcData1 = src1_data;
-assign SrcData2 = src2_data;
+assign SrcData1 = (WriteReg & (clk==0) & (DstReg == SrcReg1)) ? DstData : src1_data;
+assign SrcData2 = (WriteReg & (clk==0) & (DstReg == SrcReg2)) ? DstData : src2_data;
 
 endmodule

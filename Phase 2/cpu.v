@@ -98,7 +98,7 @@ assign flush = if_id_BEn;
 
 //*********************************************    EX STAGE      ********************************************************************
 //pipeline register
-EX_MEM_Latch ex_mem(.clk(clk), .rst(~rst_n), .en(1), .wreg_in(id_ex_wreg), .halt_in(id_ex_halt), .MemRead_in(id_ex_MemRead), .MemWrite_in(id_ex_MemWrite),
+EX_MEM_Latch ex_mem(.clk(clk), .rst(~rst_n), .en(1'b1), .wreg_in(id_ex_wreg), .halt_in(id_ex_halt), .MemRead_in(id_ex_MemRead), .MemWrite_in(id_ex_MemWrite),
                     .MemtoReg_in(id_ex_MemtoReg), .RegWrite_in(id_ex_RegWrite), .PCS_in(id_ex_PCS), .rt_fwd_in(rsrt_fwd[3:0]), .npc_in(id_ex_npc), .b_in(id_ex_reg2),
                     .alu_in(ex_aluout), .opcode_in(id_ex_opc),.wreg_out(ex_mem_wreg), .halt_out(ex_mem_halt), .MemRead_out(ex_mem_MemRead), 
                     .MemWrite_out(ex_mem_MemWrite),.MemtoReg_out(ex_mem_MemtoReg), .RegWrite_out(ex_mem_RegWrite), .PCS_out(ex_mem_PCS),
@@ -120,7 +120,7 @@ assign aluB = (id_ex_ALUSrc) ? id_ex_immm : reg2_fwd;
 
 //*********************************************    MEM STAGE      ********************************************************************
 //pipeline register
-MEM_WB_Latch mem_wb(.clk(clk), .rst(~rst_n), .en(1), .wreg_in(ex_mem_wreg), .halt_in(ex_mem_halt), .MemtoReg_in(ex_mem_MemtoReg), .RegWrite_in(ex_mem_RegWrite),
+MEM_WB_Latch mem_wb(.clk(clk), .rst(~rst_n), .en(1'b1), .wreg_in(ex_mem_wreg), .halt_in(ex_mem_halt), .MemtoReg_in(ex_mem_MemtoReg), .RegWrite_in(ex_mem_RegWrite),
                     .PCS_in(ex_mem_PCS), .npc_in(ex_mem_npc), .mem_in(mem_memdata), .alu_in(ex_mem_aluout),.wreg_out(mem_wb_wreg), .halt_out(mem_wb_halt), .MemtoReg_out(mem_wb_MemtoReg),
                     .RegWrite_out(mem_wb_RegWrite), .PCS_out(mem_wb_PCS), .npc_out(mem_wb_npc), .mem_out(mem_wb_memdata), .alu_out(mem_wb_aluout));
 //data memory
