@@ -9,8 +9,8 @@ output [3:0] wreg_out, rt_fwd_out, opcode_out;
 output [15:0] npc_out, b_out, alu_out;
 
 dff halt(.q(halt_out), .d(halt_in), .wen(en), .clk(clk), .rst(rst));
-dff memread(.q(MemRead_out), .d(MemRead_out), .wen(en), .clk(clk), .rst(rst));
-dff memwrite(.q(MemWrite_out), .d(MemWrite_out), .wen(en), .clk(clk), .rst(rst));
+dff memread(.q(MemRead_out), .d(MemRead_in), .wen(en), .clk(clk), .rst(rst));
+dff memwrite(.q(MemWrite_out), .d(MemWrite_in), .wen(en), .clk(clk), .rst(rst));
 dff memtoreg(.q(MemtoReg_out), .d(MemtoReg_in), .wen(en), .clk(clk), .rst(rst));
 dff regwrite(.q(RegWrite_out), .d(RegWrite_in), .wen(en), .clk(clk), .rst(rst));
 dff pcs(.q(PCS_out), .d(PCS_in), .wen(en), .clk(clk), .rst(rst));

@@ -18,7 +18,7 @@ wire [15:0] instr, instr_if_id;                                         //instru
 wire [15:0] if_id_reg1, if_id_reg2, id_ex_reg1, id_ex_reg2, ex_mem_reg2, reg1_fwd, reg2_fwd;           //register file outputs
 wire [15:0] ex_aluout, ex_mem_aluout, mem_wb_aluout;                                                     //output of ALU
 wire [15:0] mem_memdata, mem_wb_memdata;                                                    //data output from memory
-wire [15:0] wb_regdata;                                                    //data to write to register
+wire [15:0] wb_regdata, dst_fwd;                                                    //data to write to register
 wire [15:0] aluA, aluB;                                                 //ALU inputs
 wire [15:0] id_imm, id_ex_immm;                                                  //immediate to be passed into ALU
 wire [15:0] brAddr;                                                     //address of branch;
@@ -37,8 +37,8 @@ wire if_id_Higher, id_ex_Higher;                                        //select
 wire if_id_BEn, id_ex_BEn;                      //branch enable
 wire if_id_Br, id_ex_Br;                          //branch type
 wire if_id_PCS, id_ex_PCS, ex_mem_PCS, mem_wb_PCS;                      //PCS
-
-wire bTaken;
+wire [15:0] mem_fwd;
+wire bTaken, memEnable;
 
 //select branch type
 assign brAddr = (if_id_Br) ? if_id_reg1 : next_pc;
@@ -107,14 +107,15 @@ EX_MEM_Latch ex_mem(.clk(clk), .rst(~rst_n), .en(1'b1), .wreg_in(id_ex_wreg), .h
 ALU_16bit aluEx(.ALU_Out(ex_aluout), .ALU_In1(aluA), .ALU_In2(aluB), .Opcode(id_ex_opc), .Flags(flag), .en(en));
 //forwarding unit
 forwarding_unit fwd(.em_regwrite(ex_mem_RegWrite), .em_memwrite(ex_mem_MemWrite), .mw_regwrite(mem_wb_RegWrite), .em_dstreg(ex_mem_wreg), .mw_dstreg(mem_wb_wreg),
-                    .de_regRs(rsrt_fwd[7:4]), .de_RegRt(rsrt_fwd[3:0]), .em_RegRt(rt_fwd), .mw_regrd(mem_wb_wreg), .em_regrd(ex_mem_wreg), .data_dstReg(wb_regdata),
-                    .data_in_RegRs(id_ex_reg1), .data_in_RegRt(id_ex_reg2), .data_mem(mem_memdata), .data_out_RegRs(reg1_fwd), .data_out_RegRt(reg2_fwd));
+                    .de_regRs(rsrt_fwd[7:4]), .de_RegRt(rsrt_fwd[3:0]), .em_RegRt(rt_fwd), .mw_regrd(mem_wb_wreg), .em_regrd(ex_mem_wreg), .data_dstReg(ex_aluout),
+                    .data_in_RegRs(id_ex_reg1), .data_in_RegRt(id_ex_reg2), .data_mem(mem_fwd), .data_out_RegRs(reg1_fwd), .data_out_RegRt(reg2_fwd));
 //select input for ALU
 assign aluA = (id_ex_MemRead | id_ex_MemWrite) ? reg1_fwd & 16'hfffe : 
               (id_ex_Lower) ? (reg1_fwd & 16'hff00) :
               (id_ex_Higher) ? (reg1_fwd & 16'h00ff) : reg1_fwd;
 assign aluB = (id_ex_ALUSrc) ? id_ex_immm : reg2_fwd;
-
+assign mem_fwd = (mem_wb_MemtoReg || ex_mem_MemtoReg) ? mem_memdata : wb_regdata;
+// assign dst_fwd = (ex_mem_MemRead) ? mem_memdata : ex_mem_aluout;
 //***********************************************************************************************************************************
 
 
@@ -124,8 +125,8 @@ MEM_WB_Latch mem_wb(.clk(clk), .rst(~rst_n), .en(1'b1), .wreg_in(ex_mem_wreg), .
                     .PCS_in(ex_mem_PCS), .npc_in(ex_mem_npc), .mem_in(mem_memdata), .alu_in(ex_mem_aluout),.wreg_out(mem_wb_wreg), .halt_out(mem_wb_halt), .MemtoReg_out(mem_wb_MemtoReg),
                     .RegWrite_out(mem_wb_RegWrite), .PCS_out(mem_wb_PCS), .npc_out(mem_wb_npc), .mem_out(mem_wb_memdata), .alu_out(mem_wb_aluout));
 //data memory
-data_memory dMem(.data_out(mem_memdata), .data_in(ex_mem_reg2), .addr(ex_mem_aluout), .enable(ex_mem_MemRead), .wr(ex_mem_MemWrite), .clk(clk), .rst(~rst_n));
-
+data_memory dMem(.data_out(mem_memdata), .data_in(ex_mem_reg2), .addr(ex_mem_aluout), .enable(memEnable), .wr(ex_mem_MemWrite), .clk(clk), .rst(~rst_n));
+assign memEnable = (ex_mem_MemRead || ex_mem_MemWrite);
 //if PCS, then write next_pc value to reg, otherwise default to alu output
 assign wb_regdata = (mem_wb_MemtoReg) ? mem_wb_memdata : (mem_wb_PCS) ? mem_wb_npc : mem_wb_aluout;
 
