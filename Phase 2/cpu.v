@@ -95,7 +95,8 @@ assign rt = (if_id_MemRead | if_id_MemWrite) ? instr_if_id[11:8] : instr_if_id[3
 assign rd = instr_if_id[11:8];
 assign destReg = (if_id_RegDst) ? rd : rt;
 assign id_imm = (if_id_MemRead | if_id_MemWrite) ? {{12{1'b0}},instr_if_id[3:0]} << 1 :
-                   (if_id_Lower) ? {{8{1'b0}},instr_if_id[7:0]} : (instr_if_id[7:0] << 8);
+                   (if_id_Lower) ? {{8{1'b0}},instr_if_id[7:0]} : 
+                   (if_id_Higher) ? (instr_if_id[7:0] << 8) : {{12{1'b0}},instr_if_id[3:0]};
 
 //check for stalls and flush
 assign stall_if_id = stall;

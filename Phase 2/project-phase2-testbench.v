@@ -40,8 +40,8 @@ module cpu_ptb();
       $display("Hello world...simulation starting");
       $display("See verilogsim.plog and verilogsim.ptrace for output");
       inst_count = 0;
-      trace_file = $fopen("verilogsim_2.ptrace");
-      sim_log_file = $fopen("verilogsim_2.plog");
+      trace_file = $fopen("verilogsim_1.ptrace");
+      sim_log_file = $fopen("verilogsim_1.plog");
       
    end
 
@@ -162,7 +162,7 @@ module cpu_ptb();
    assign MemDataIn = DUT.mem_data_in;
    // If there's a memory write in this cycle, this is the Data being written to memory (16 bits)
    
-   assign MemDataOut = DUT.mem_memdata;
+   assign MemDataOut = DUT.mem_data_out;
    // If there's a memory read in this cycle, this is the data being read out of memory (16 bits)
 
 
