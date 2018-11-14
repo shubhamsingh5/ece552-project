@@ -70,7 +70,7 @@ assign Flags[0] = ((Opcode == 4'h0)& (OvflAdd == 1'b1)) ? 1'b1:
 assign Flags[2] = ((Opcode == 4'h0)& (Sum[15] == 1'b1)) ? 1'b1:
 		   ((Opcode == 4'h1) & (Diff[15] == 1'b1)) ? 1'b1: 1'b0;
 
-assign Flags[1] = (ALU_Out == 16'h0000);
+assign Flags[1] = (Opcode[3] == 0) & (Opcode[1:0] != 2'b11) & (ALU_Out == 16'h0000);
 
 assign en = enable;
 

@@ -55,7 +55,7 @@ pc_reg pcReg(.clk(clk), .rst(~rst_n), .D(brAddr), .WriteEnable(~if_id_halt), .q(
 //instruction memory
 instr_memory iMem(.data_out(instr), .addr(curr_pc), .clk(clk), .rst(~rst_n));
 //pc control unit
-PC_control pcControl(.B(if_id_BEn), .C(instr[11:9]), .I(instr[8:0]), .F(flag), .PC_in(curr_pc), .PC_out(next_pc), .bTaken(bTaken));
+PC_control pcControl(.B(if_id_BEn), .C(instr_if_id[11:9]), .I(instr_if_id[8:0]), .F(ccc), .PC_in(curr_pc), .PC_out(next_pc), .bTaken(bTaken));
 
 
 //***********************************************************************************************************************************
@@ -81,6 +81,7 @@ CPU_control cpuControl(.opc(instr_if_id[15:12]), .halt(if_id_halt), .RegDst(if_i
 flag_register fr(.clk(clk), .rst(~rst_n), .flag_in(flag), .flag_out(ccc), .en(en));
 //hazard detecion unit
 hazard hzd(.br(if_id_BEn), .mem_opc(ex_mem_opc), .id_rs(rs), .mem_rd(ex_mem_wreg), .stall(stall));
+//hazard hzd(.br(if_id_BEn), .mem_opc(ex_mem_opc), .id_rs(rs), .dx_MemRead(id_ex_MemRead),.dx_reg_rd(id_ex_wreg),.fd_reg_rs(rs),.fd_reg_rt(rt),.mem_rd(ex_mem_wreg), .stall(stall));
 //decode register numbers from instruction
 assign rs = (if_id_Lower | if_id_Higher) ? rd : instr_if_id[7:4];
 assign rt = (if_id_MemRead | if_id_MemWrite) ? instr_if_id[11:8] : instr_if_id[3:0];
