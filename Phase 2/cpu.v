@@ -9,7 +9,7 @@ output [15:0] pc
 
 
 //pipeline wires
-wire [15:0] curr_pc, next_pc, if_id_npc, id_ex_npc, ex_mem_npc, mem_wb_npc;                         //pc wires
+wire [15:0] curr_pc, next_pc, pc_ctrl_in, if_id_npc, id_ex_npc, ex_mem_npc, mem_wb_npc, if_id_oldpc;                         //pc wires
 wire [2:0] flag, ccc, en;                                                                           //flags and cc
 wire [3:0] rs, rt, rd, rt_fwd, destReg, id_ex_wreg, ex_mem_wreg, mem_wb_wreg;                       //register file inputs
 wire [3:0] id_ex_opc, ex_mem_opc;                                                                   //opcode wires between pipeline latches
@@ -53,17 +53,17 @@ assign pc = curr_pc;
 
 //*********************************************    IF STAGE      ********************************************************************
 //pipeline register
-IF_ID_latch if_id(.clk(clk), .rst(if_flush), .en(~stall_if_id), .npc_in(brAddr), .instr_in(instr), .npc_out(if_id_npc), .instr_out(instr_if_id));
+IF_ID_latch if_id(.clk(clk), .rst(if_flush), .en(~stall_if_id), .opc_in(curr_pc), .npc_in(brAddr), .instr_in(instr), .opc_out(if_id_oldpc), .npc_out(if_id_npc), .instr_out(instr_if_id));
 //pc register
 pc_reg pcReg(.clk(clk), .rst(~rst_n), .D(brAddr), .WriteEnable(~pc_reg_hlt), .q(curr_pc));
 //instruction memory
 instr_memory iMem(.data_out(instr), .addr(curr_pc), .clk(clk), .rst(~rst_n));
 //pc control unit
-PC_control pcControl(.B(if_id_BEn), .C(instr_if_id[11:9]), .I(instr_if_id[8:0]), .F(ccc), .PC_in(curr_pc), .PC_out(next_pc), .bTaken(bTaken));
+PC_control pcControl(.B(if_id_BEn), .C(instr_if_id[11:9]), .I(instr_if_id[8:0]), .F(ccc), .PC_in(pc_ctrl_in), .PC_out(next_pc), .bTaken(bTaken));
 
 //halt pc_reg?
-assign pc_reg_hlt = instr[15:12] == 4'hf;
-
+assign pc_reg_hlt = (instr[15:12] == 4'hf && ~bTaken);
+assign pc_ctrl_in = if_id_BEn ? if_id_oldpc : curr_pc;
 //***********************************************************************************************************************************
 
 
@@ -101,7 +101,8 @@ assign id_imm = (if_id_MemRead | if_id_MemWrite) ? {{12{1'b0}},instr_if_id[3:0]}
 //check for stalls and flush
 assign stall_if_id = stall;
 assign stall_id_ex = stall;
-assign flush = if_id_BEn;
+
+assign flush = bTaken;
 
 //***********************************************************************************************************************************
 

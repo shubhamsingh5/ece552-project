@@ -30,7 +30,7 @@ always @(*) begin
         end
     3'b001: begin //equal (Z=1)
         target_addr = (F[1]) ? taken : notTaken;
-        b = (F[1]) ? taken : 1'b0;
+        b = (F[1]) ? 1'b1 : 1'b0;
         end
     3'b010: begin //greater than (Z=N=0)
         target_addr = (F[2] & F[1]) ? notTaken : taken;
@@ -65,6 +65,6 @@ end
 
 
 assign PC_out = B ? target_addr : notTaken;
-assign bTaken = b;
+assign bTaken = B ? b : 1'b0;
 
 endmodule

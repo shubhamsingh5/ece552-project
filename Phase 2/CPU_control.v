@@ -134,7 +134,7 @@ always @(*) begin
   end
   4'b1110: begin        //PCS
     assign r_hlt = 0;
-    assign r_RegDst = 0;
+    assign r_RegDst = 1;
     assign r_ALUSrc = 0;
     assign r_MemRead = 0;
     assign r_MemWrite = 0;
