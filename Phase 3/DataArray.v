@@ -4,8 +4,8 @@
 //WriteEnable is one on writes and zero on reads
 
 module DataArray(input clk, input rst, input [15:0] DataIn, input Write0, input Write1, input [63:0] BlockEnable, input [7:0] WordEnable, output [15:0] DataOut0, output [15:0] DataOut1);
-	Block blk[63:0]( .clk(clk), .rst(rst), .Din(DataIn), .WriteEnable(Write0), .Enable(BlockEnable), .WordEnable(WordEnable), .Dout(DataOut0));
-	Block blk[63:0]( .clk(clk), .rst(rst), .Din(DataIn), .WriteEnable(Write1), .Enable(BlockEnable), .WordEnable(WordEnable), .Dout(DataOut1));
+	Block blk0[63:0]( .clk(clk), .rst(rst), .Din(DataIn), .WriteEnable(Write0), .Enable(BlockEnable), .WordEnable(WordEnable), .Dout(DataOut0));
+	Block blk1[63:0]( .clk(clk), .rst(rst), .Din(DataIn), .WriteEnable(Write1), .Enable(BlockEnable), .WordEnable(WordEnable), .Dout(DataOut1));
 endmodule
 
 //64 byte (8 word) cache block

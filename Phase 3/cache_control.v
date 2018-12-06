@@ -1,19 +1,20 @@
-module cache_control(clk, rst, instr_cache_addr, data_cache_addr, memory_data, cache_data, stall, Wen_cache, Ren_cache, data_valid_memory);
+module cache_control(clk, rst, instr_write, instr_read, data_write, data_read, instr_cache_addr, data_cache_addr, data_cache_data_in, instr_cache_data, data_cache_data, if_stall, mem_stall);
 input clk, rst;
-input Wen_cache, Ren_cache;
+input instr_write, instr_read, data_write, data_read;
 input [15:0] instr_cache_addr, data_cache_addr;                 //addresses for icache and dcache
 input [15:0] data_cache_data_in;                                //data to store in dcache
-output [15:0] cache_data;                                       //data output by cache for loads
+output [15:0] instr_cache_data, data_cache_data;                //data output by cache for loads
 output if_stall, mem_stall;                                     //pipeline stall signals
 
 wire instr_miss_detected, data_miss_detected;
 wire data_valid;
 wire FSM_tag_Wen;
 wire instr_write_0, instr_write_1, data_write_0, data_write_1;
+wire way_0, way_1, way_0_fill, way_1_fill;
 wire [7:0] instr_metadata0, instr_metadata1, data_metadata0, data_metadata1;
 wire [7:0] instr_cache_wordEn, data_cache_wordEn;
 wire [63:0] instr_blockEnable, data_blockEn;
-wire [15:0] instr_cache_data_in, data_cache_data_in;
+wire [15:0] instr_cache_write, data_cache_write;
 wire [15:0] instr_cache_data_out0, instr_cache_data_out1, data_cache_data_out0, data_cache_data_out1;
 wire [15:0] memory_data_out;
 
@@ -26,35 +27,44 @@ offset3to8 instr_offset(.offset(instr_cache_addr[3:1]), .WordEnable(instr_cache_
 offset3to8 data_offset(.offset(data_cache_addr[3:1]), .WordEnable(data_cache_wordEn));
 
 //instruction cache
-Icache icache(.clk(clk), .rst(rst), .data_we(FSM_cache_Wen), .tag_we(FSM_tag_Wen), .Write0(instr_write_0), .Write1(instr_write_1),
-                .wordEn(instr_cache_wordEn), .tag_in(), .data_in(instr_cache_data_in), .data_blockEn(instr_blockEnable), .tag_out0(instr_metadata0),
+Icache icache(.clk(clk), .rst(rst), .data_we(FSM_cache_Wen | instr_write), .tag_we(FSM_tag_Wen), .Write0(instr_write_0 | way_0_fill), .Write1(instr_write_1 | way_1_fill),
+                .wordEn(instr_cache_wordEn), .tag_in({1'b0,1'b1,instr_cache_addr[15:10]}), .data_in(instr_cache_write), .data_blockEn(instr_blockEnable), .tag_out0(instr_metadata0),
                 .tag_out1(instr_metadata1), .data_out0(instr_cache_data_out0), .data_out1(instr_cache_data_out1));
 
 //data cache
-Dcache dcache(.clk(clk), .rst(rst), .data_we(FSM_cache_Wen), .tag_we(FSM_tag_Wen), .Write0(data_write_0), .Write1(data_write_1),
-                .wordEn(data_cache_wordEn), .tag_in(), .data_in(data_cache_data_in), .data_blockEn(data_blockEn), .tag_out0(data_metadata0),
+Dcache dcache(.clk(clk), .rst(rst), .data_we(FSM_cache_Wen | data_write), .tag_we(FSM_tag_Wen), .Write0(data_write_0 | way_0_fill), .Write1(data_write_1 | way_1_fill),
+                .wordEn(data_cache_wordEn), .tag_in({1'b0,1'b1,data_cache_addr[15:10]}), .data_in(data_cache_write), .data_blockEn(data_blockEn), .tag_out0(data_metadata0),
                 .tag_out1(data_metadata1), .data_out0(data_cache_data_out0), .data_out1(data_cache_data_out1));
 
 //state machine to handle cache misses
-cache_fill_FSM FSM(.clk(clk), .rst(rst), .miss_detected(miss_detected), .miss_address(cache_addr), .fsm_busy(stall), .write_data_array(FSM_cache_Wen),
+cache_fill_FSM FSM(.clk(clk), .rst(rst), .miss_detected(miss_detected), .way_0(way_0), .way_1(way_1), .miss_address(cache_addr), .fsm_busy(stall), .write_data_array(FSM_cache_Wen),
                 .write_tag_array(FSM_tag_Wen), .memory_address(memory_address), .memory_data_valid(data_valid_memory));
-                
+
 //Wen_cache when cpu write data to cache, FSM_cache_Wen when FSM asks memory wirte data to cache
-memory4c memory(.data_out(memory_data_out), .data_in(cache_data), .addr(memory_address), .enable(Wen_cache | miss_detected), .wr(Wen_cache), .clk(), .rst(rst), .data_valid(data_valid_memory));
+memory4c memory(.data_out(memory_data_out), .data_in(data_cache_data_in), .addr(memory_address), .enable(data_write | miss_detected), .wr(data_write), .clk(clk), .rst(rst), .data_valid(data_valid_memory));
 
 //figure out which way contains valid cache block
 assign instr_write_0 = (instr_cache_addr[15:10] == instr_metadata0[5:0] & instr_metadata0[7]);
 assign instr_write_1 = (instr_cache_addr[15:10] == instr_metadata1[5:0] & instr_metadata1[7]);
-assign data_write_0 = (instr_cache_addr[15:10] == data_metadata0[5:0] & data_metadata0[7]);
-assign data_write_1 = (instr_cache_addr[15:10] == data_metadata1[5:0] & data_metadata1[7]);
+assign data_write_0 = (data_cache_addr[15:10] == data_metadata0[5:0] & data_metadata0[7]);
+assign data_write_1 = (data_cache_addr[15:10] == data_metadata1[5:0] & data_metadata1[7]);
 
 //figure out if there was a cache miss
-assign instr_miss_detected = (~instr_write_0 & ~instr_write_1) & (Wen_cache | Ren_cache);
-assign data_miss_detected = (~data_write_0 & ~data_write_1) & (Wen_cache | Ren_cache);
+assign instr_miss_detected = (~instr_write_0 & ~instr_write_1) & (instr_write | instr_read);
+assign data_miss_detected = (~data_write_0 & ~data_write_1) & (data_write | data_read);
 //get miss address in case of cache miss
 assign miss_address = instr_miss_detected ? instr_cache_addr : data_cache_addr;
+//set corresponding cacheblock's write enable to one when cache miss and need to fill
+assign way_0_fill = FSM_cache_Wen & way_0;
+assign way_1_fill = FSM_cache_Wen & way_1;
 
-//this memory should be set outside the cache control 
+//set data to be stored in cache
+assign data_cache_write = data_miss_detected ? memory_data_out : data_cache_data_in;
+assign instr_cache_write = memory_data_out;
+
+//select output for cache hits
+assign instr_cache_data = instr_write_1 ? instr_cache_data_out1 : instr_cache_data_out0;
+assign data_cache_data = data_write_1 ? data_cache_data_out1 : data_cache_data_out0;
 
 endmodule
 

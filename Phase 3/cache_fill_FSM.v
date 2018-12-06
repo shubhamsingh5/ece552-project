@@ -1,6 +1,7 @@
-module cache_fill_FSM(clk, rst, miss_detected, miss_address, fsm_busy, write_data_array, write_tag_array,memory_address, memory_data, memory_data_valid);
+module cache_fill_FSM(clk, rst, miss_detected, way_0, way_1, miss_address, fsm_busy, write_data_array, write_tag_array,memory_address, memory_data, memory_data_valid);
 input clk, rst;
 input miss_detected; // active high when tag match logic detects a miss
+input way_0, way_1;
 input [15:0] miss_address; // address that missed the cache
 output fsm_busy; // asserted while FSM is busy handling the miss (can be used as pipeline stall signal)
 output write_data_array; // write enable to cache data array to signal when filling with memory_data
@@ -25,5 +26,7 @@ assign fsm_busy = curr_state;
 assign write_data_array = curr_state & memory_data_valid;
 assign write_tag_array = curr_state & ~chunks_left;
 assign memory_address = rst ? 16'b0 : {miss_address[15:4], cnt_out << 1};
+assign way_0 = (cnt_out[0] == 0);
+assign way_1 = (cnt_out[1] == 1);
 
 endmodule
