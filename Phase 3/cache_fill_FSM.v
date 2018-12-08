@@ -27,10 +27,10 @@ offset3to8 instr_offset(.offset(fill_address[3:1]), .WordEnable(word_sel));
 
 assign next_state = (~curr_state) ? (miss_detected) : (chunks_left);
 assign chunks_left = (curr_state & ~(cnt_out == 4'b1011));
-assign cnt_in = (~curr_state) ? 1'b0 : (miss_detected ) ? sum : cnt_out;
-assign fsm_busy = (~curr_state) ? miss_detected : fsm_busy;
+assign cnt_in = (~curr_state) ? 1'b1 : (miss_detected ) ? sum : cnt_out;
+assign fsm_busy = (~curr_state) ? miss_detected : chunks_left;
 assign write_data_array = curr_state & memory_data_valid;
-assign write_tag_array = curr_state & ~chunks_left;
+assign write_tag_array = curr_state & cnt_out == 4'b1010;
 assign fill_address = rst ? 16'b0 : {miss_address[15:4], addr_out << 1};
 assign memory_address = rst ? 16'b0 : {miss_address[15:4], cnt_out << 1};
 assign way_0 = (cnt_out[0] == 0);

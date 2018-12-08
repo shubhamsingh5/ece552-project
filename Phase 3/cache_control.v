@@ -29,7 +29,7 @@ offset3to8 instr_offset(.offset(instr_cache_addr[3:1]), .WordEnable(instr_cache_
 offset3to8 data_offset(.offset(data_cache_addr[3:1]), .WordEnable(data_cache_wordEn));
 
 //instruction cache
-cache icache(.clk(clk), .rst(rst), .data_we(FSM_cache_Wen | instr_write), .tag_we(FSM_tag_Wen), .Write0(instr_write_0 | (FSM_cache_Wen & way_0)), .Write1(instr_write_1 | (FSM_cache_Wen & way_1)),
+cache icache(.clk(clk), .rst(rst), .data_we(FSM_cache_Wen | instr_write), .tag_we(FSM_tag_Wen), .Write0(instr_write_0 | 1'b1), .Write1(instr_write_1 | 1'b0),
                 .wordEn(instr_cache_word_sel), .tag_in({1'b0,1'b1,instr_cache_addr[15:10]}), .data_in(instr_cache_write), .blockEnable(instr_blockEnable), .tag_out0(instr_metadata0),
                 .tag_out1(instr_metadata1), .data_out0(instr_cache_data_out0), .data_out1(instr_cache_data_out1));
 
@@ -49,10 +49,10 @@ memory4c memory(.data_out(memory_data_out), .data_in(data_cache_data_in), .addr(
 assign cache_enable = (instr_write | instr_read | data_write | data_read);
 
 //figure out which way contains valid cache block
-assign instr_write_0 = (instr_cache_addr[15:10] == instr_metadata0[5:0] & instr_metadata0[6]);
-assign instr_write_1 = (instr_cache_addr[15:10] == instr_metadata1[5:0] & instr_metadata1[6]);
-assign data_write_0 = (data_cache_addr[15:10] == data_metadata0[5:0] & data_metadata0[6]);
-assign data_write_1 = (data_cache_addr[15:10] == data_metadata1[5:0] & data_metadata1[6]);
+assign instr_write_0 = (instr_cache_addr[15:10] == instr_metadata0[5:0] & instr_metadata0[6]) & ~FSM_tag_Wen;
+assign instr_write_1 = (instr_cache_addr[15:10] == instr_metadata1[5:0] & instr_metadata1[6]) & ~FSM_tag_Wen;
+assign data_write_0 = (data_cache_addr[15:10] == data_metadata0[5:0] & data_metadata0[6]) & ~FSM_tag_Wen;
+assign data_write_1 = (data_cache_addr[15:10] == data_metadata1[5:0] & data_metadata1[6]) & ~FSM_tag_Wen;
 
 //figure out if there was a cache miss
 assign instr_miss_detected = (~instr_write_0 & ~instr_write_1) & (instr_write | instr_read);
