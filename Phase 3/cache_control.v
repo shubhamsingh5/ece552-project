@@ -28,12 +28,12 @@ offset3to8 data_offset(.offset(data_cache_addr[3:1]), .WordEnable(data_cache_wor
 
 //instruction cache
 Icache icache(.clk(clk), .rst(rst), .data_we(FSM_cache_Wen | instr_write), .tag_we(FSM_tag_Wen), .Write0(instr_write_0 | way_0_fill), .Write1(instr_write_1 | way_1_fill),
-                .wordEn(instr_cache_wordEn), .tag_in({1'b0,1'b1,instr_cache_addr[15:10]}), .data_in(instr_cache_write), .data_blockEn(instr_blockEnable), .tag_out0(instr_metadata0),
+                .wordEn(instr_cache_wordEn), .tag_in({1'b0,1'b1,instr_cache_addr[15:10]}), .data_in(instr_cache_write), .blockEnable(instr_blockEnable), .tag_out0(instr_metadata0),
                 .tag_out1(instr_metadata1), .data_out0(instr_cache_data_out0), .data_out1(instr_cache_data_out1));
 
 //data cache
 Dcache dcache(.clk(clk), .rst(rst), .data_we(FSM_cache_Wen | data_write), .tag_we(FSM_tag_Wen), .Write0(data_write_0 | way_0_fill), .Write1(data_write_1 | way_1_fill),
-                .wordEn(data_cache_wordEn), .tag_in({1'b0,1'b1,data_cache_addr[15:10]}), .data_in(data_cache_write), .data_blockEn(data_blockEn), .tag_out0(data_metadata0),
+                .wordEn(data_cache_wordEn), .tag_in({1'b0,1'b1,data_cache_addr[15:10]}), .data_in(data_cache_write), .blockEnable(data_blockEn), .tag_out0(data_metadata0),
                 .tag_out1(data_metadata1), .data_out0(data_cache_data_out0), .data_out1(data_cache_data_out1));
 
 //state machine to handle cache misses
@@ -41,6 +41,7 @@ cache_fill_FSM FSM(.clk(clk), .rst(rst), .miss_detected(miss_detected), .way_0(w
                 .write_tag_array(FSM_tag_Wen), .memory_address(memory_address), .memory_data_valid(data_valid_memory));
 
 //Wen_cache when cpu write data to cache, FSM_cache_Wen when FSM asks memory wirte data to cache
+//shouldn't the enable be 1 only when the tag?
 memory4c memory(.data_out(memory_data_out), .data_in(data_cache_data_in), .addr(memory_address), .enable(data_write | miss_detected), .wr(data_write), .clk(clk), .rst(rst), .data_valid(data_valid_memory));
 
 //figure out which way contains valid cache block
@@ -65,6 +66,10 @@ assign instr_cache_write = memory_data_out;
 //select output for cache hits
 assign instr_cache_data = instr_write_1 ? instr_cache_data_out1 : instr_cache_data_out0;
 assign data_cache_data = data_write_1 ? data_cache_data_out1 : data_cache_data_out0;
+
+//set stall signals for instr cache and data cache 
+assign if_stall = (instr_read | instr_write) & stall;
+assign mem_stall = (data_read | data_write) & stall;
 
 endmodule
 

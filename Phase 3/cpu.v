@@ -41,10 +41,12 @@ wire if_id_PCS, id_ex_PCS, ex_mem_PCS, mem_wb_PCS;                              
 //forwarding unit wires
 wire extoexA, memtoexA, extoexB, memtoexB, memtomemB;
 
+wire cacheMiss_stall_if_id; //stall due to Inst Cache Miss
 //select branch type
 assign brAddr = (if_id_Br) ? if_id_reg1 : next_pc;
 //flush if/id reg
-assign if_flush = ~rst_n | flush;
+//assign if_flush = ~rst_n | flush;
+assign if_flush = ~rst_n | flush | cacheMiss_stall_if_id;
 //global halt signal
 assign hlt = mem_wb_halt;
 //pc out signal
@@ -57,11 +59,18 @@ IF_ID_latch if_id(.clk(clk), .rst(if_flush), .en(~stall_if_id), .opc_in(curr_pc)
 //pc register
 pc_reg pcReg(.clk(clk), .rst(~rst_n), .D(brAddr), .WriteEnable(~pc_reg_hlt), .q(curr_pc));
 //instruction memory
-instr_memory iMem(.data_out(instr), .addr(curr_pc), .clk(clk), .rst(~rst_n));
+//instr_memory iMem(.data_out(instr), .addr(curr_pc), .clk(clk), .rst(~rst_n));
+//data_memory dMem(.data_out(mem_data_out), .data_in(mem_data_in), .addr(ex_mem_aluout), .enable(memEnable), .wr(ex_mem_MemWrite), .clk(clk), .rst(~rst_n));
+cache_control accessCache(.clk(clk), .rst(~rst_n), .instr_write(1'b0), .instr_read(~stall), .data_write(),
+                            .data_read(), .instr_cache_addr(curr_pc), .data_cache_addr(ex_mem_aluout), .data_cache_data_in(mem_data_in), .instr_cache_data(instr), .data_cache_data(mem_data_out), .if_stall(cacheMiss_stall_if_id), .mem_stall());
+
+
+
 //pc control unit
 PC_control pcControl(.B(if_id_BEn), .C(instr_if_id[11:9]), .I(instr_if_id[8:0]), .F(ccc), .PC_in(pc_ctrl_in), .PC_out(next_pc), .bTaken(bTaken));
 
 //halt pc_reg?
+
 assign pc_reg_hlt = (instr[15:12] == 4'hf && ~bTaken);
 assign pc_ctrl_in = if_id_BEn ? if_id_oldpc : curr_pc;
 //***********************************************************************************************************************************
@@ -104,6 +113,7 @@ assign stall_id_ex = stall;
 
 assign flush = bTaken;
 
+
 //***********************************************************************************************************************************
 
 
@@ -143,7 +153,7 @@ MEM_WB_Latch mem_wb(.clk(clk), .rst(~rst_n), .en(1'b1), .wreg_in(ex_mem_wreg), .
                     .PCS_in(ex_mem_PCS), .npc_in(ex_mem_npc), .mem_in(mem_data_out), .alu_in(ex_mem_aluout),.wreg_out(mem_wb_wreg), .halt_out(mem_wb_halt), .MemtoReg_out(mem_wb_MemtoReg),
                     .RegWrite_out(mem_wb_RegWrite), .PCS_out(mem_wb_PCS), .npc_out(mem_wb_npc), .mem_out(mem_wb_memdata), .alu_out(mem_wb_aluout));
 //data memory
-data_memory dMem(.data_out(mem_data_out), .data_in(mem_data_in), .addr(ex_mem_aluout), .enable(memEnable), .wr(ex_mem_MemWrite), .clk(clk), .rst(~rst_n));
+//data_memory dMem(.data_out(mem_data_out), .data_in(mem_data_in), .addr(ex_mem_aluout), .enable(memEnable), .wr(ex_mem_MemWrite), .clk(clk), .rst(~rst_n));
 
 
 assign memEnable = (ex_mem_MemRead || ex_mem_MemWrite);
