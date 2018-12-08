@@ -63,7 +63,7 @@ pc_reg pcReg(.clk(clk), .rst(~rst_n), .D(brAddr), .WriteEnable(~pc_reg_hlt & ~ca
 //instruction memory
 //instr_memory iMem(.data_out(instr), .addr(curr_pc), .clk(clk), .rst(~rst_n));
 //data_memory dMem(.data_out(mem_data_out), .data_in(mem_data_in), .addr(ex_mem_aluout), .enable(memEnable), .wr(ex_mem_MemWrite), .clk(clk), .rst(~rst_n));
-cache_control accessCache(.clk(clk), .rst(~rst_n), .instr_write(1'b0), .instr_read(~stall), .data_write(ex_mem_MemWrite), .data_read(memEnable), .instr_cache_addr(curr_pc), .data_cache_addr(ex_mem_aluout),
+cache_control accessCache(.clk(clk), .rst(~rst_n), .instr_write(1'b0), .instr_read(1'b1), .data_write(ex_mem_MemWrite), .data_read(memEnable), .instr_cache_addr(curr_pc), .data_cache_addr(ex_mem_aluout),
                             .data_cache_data_in(mem_data_in), .instr_cache_data(instr), .data_cache_data(mem_data_out), .if_stall(cacheMiss_stall_if_id), .mem_stall(), .instr_cache_hit(ich), .data_cache_hit(dch));
 
 

@@ -11,6 +11,6 @@ output [7:0] tag_out0, tag_out1;	// tag stored at the given location in cache
 output [15:0] data_out0, data_out1; //data returned by memory (afterdelay 
 
 DataArray dataArray(.clk(clk), .rst(rst), .DataIn(data_in), .Write0(Write0 & data_we), .Write1(Write1 & data_we), .BlockEnable(blockEnable), .WordEnable(wordEn), .DataOut0(data_out0), .DataOut1(data_out1));
-MetaDataArray set_block1(.clk(clk), .rst(rst), .DataIn(tag_in), .Write0(Write0 & data_we), .Write1(Write1 & data_we), .BlockEnable(blockEnable), .DataOut0(tag_out0), .DataOut1(tag_out1));
+MetaDataArray set_block1(.clk(clk), .rst(rst), .DataIn(tag_in), .Write0(Write0 & tag_we), .Write1(Write1 & tag_we), .BlockEnable(blockEnable), .DataOut0(tag_out0), .DataOut1(tag_out1));
 
 endmodule
