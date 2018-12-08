@@ -21,8 +21,8 @@ dff counter[3:0](.clk(clk), .rst(rst), .q(cnt_out), .d(cnt_in), .wen(1'b1));
 CLA4 inc(.a(cnt_out), .b(4'b1), .sum(sum), .cin(4'b0), .cout(), .ovfl(), .tg(), .tp());
 
 assign next_state = (~curr_state) ? (miss_detected) : (chunks_left);
-assign chunks_left = (curr_state & ~(cnt_out == 1000));
-assign cnt_in = (~curr_state) ? 1'b0 : (memory_data_valid & (cycle_out[1:0] == 2'b11)) ? sum : cnt_out;
+assign chunks_left = (curr_state & ~(cnt_out == 4'b1011));
+assign cnt_in = (~curr_state) ? 1'b0 : (memory_data_valid ) ? sum : cnt_out;
 assign fsm_busy = (~curr_state) ? miss_detected : fsm_busy;
 assign write_data_array = curr_state & memory_data_valid;
 assign write_tag_array = curr_state & ~chunks_left;

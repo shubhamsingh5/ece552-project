@@ -9,7 +9,7 @@ output instr_cache_hit, data_cache_hit;
 
 wire cache_enable, get_next_block;
 wire instr_miss_detected, data_miss_detected, miss_detected;
-wire data_valid;
+//wire data_valid;
 wire FSM_tag_Wen;
 wire instr_write_0, instr_write_1, data_write_0, data_write_1;
 wire way_0, way_1, way_0_fill, way_1_fill;
@@ -44,7 +44,7 @@ cache_fill_FSM FSM(.clk(clk), .rst(rst), .miss_detected(miss_detected), .way_0(w
 
 //Wen_cache when cpu write data to cache, FSM_cache_Wen when FSM asks memory wirte data to cache
 //shouldn't the enable be 1 only when the tag?
-memory4c memory(.data_out(memory_data_out), .data_in(data_cache_data_in), .addr(memory_address), .enable(1'b1), .wr(data_write & ~stall), .clk(clk), .rst(rst), .data_valid(data_valid_memory));
+memory4c memory(.data_out(memory_data_out), .data_in(data_cache_data_in), .addr(memory_address), .enable(1'b1 ), .wr(data_write & ~stall), .clk(clk), .rst(rst), .data_valid(data_valid_memory));
 
 assign cache_enable = (instr_write | instr_read | data_write | data_read);
 
