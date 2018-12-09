@@ -19,7 +19,9 @@ wire chunks_left;
 wire [3:0] cnt_in, cnt_out, sum, addr_out, addr_in;
 
 dff state(.clk(clk), .rst(rst), .q(curr_state), .d(next_state), .wen(1'b1));
-dff counter1[3:0](.clk(clk), .rst(rst), .q(cnt_out), .d(cnt_in), .wen(1'b1));
+dff fsm_busy_ff(.clk(clk), .rst(rst), .q(fsm_busy_out), .d(fsm_busy_in), .wen(1'b1));
+
+dff counter1[3:0](.clk(clk), .rst(rst | cnt_out == 4'b1011), .q(cnt_out), .d(cnt_in), .wen(next_state));
 dff counter2[3:0](.clk(clk), .rst(rst | ~curr_state), .q(addr_out), .d(addr_in), .wen(memory_data_valid));
 CLA4 inc2(.a(addr_out), .b(4'b1), .sum(addr_in), .cin(1'b0), .cout(), .ovfl(), .tg(), .tp());
 CLA4 inc(.a(cnt_out), .b(4'b1), .sum(sum), .cin(1'b0), .cout(), .ovfl(), .tg(), .tp());
@@ -27,13 +29,14 @@ offset3to8 instr_offset(.offset(fill_address[3:1]), .WordEnable(word_sel));
 
 assign next_state = (~curr_state) ? (miss_detected) : (chunks_left);
 assign chunks_left = (curr_state & ~(cnt_out == 4'b1011));
-assign cnt_in = (~curr_state) ? 1'b0 : (miss_detected ) ? sum : cnt_out;
-assign fsm_busy = (~curr_state) ? miss_detected : fsm_busy;
+assign cnt_in = (~curr_state) ? 1'b1 : (miss_detected ) ? sum : cnt_out;
+assign fsm_busy_in = (~curr_state) ? miss_detected : chunks_left;
 assign write_data_array = curr_state & memory_data_valid;
-assign write_tag_array = curr_state & ~chunks_left;
+assign write_tag_array = curr_state & cnt_out == 4'b1011;
 assign fill_address = rst ? 16'b0 : {miss_address[15:4], addr_out << 1};
 assign memory_address = rst ? 16'b0 : {miss_address[15:4], cnt_out << 1};
 assign way_0 = (cnt_out[0] == 0);
 assign way_1 = (cnt_out[1] == 1);
+assign fsm_busy = fsm_busy_out | next_state;
 
 endmodule

@@ -50,7 +50,7 @@ module memory4c (data_out, data_in, addr, enable, wr, clk, rst, data_valid);
       if (rst) begin
          //load loadfile_all.img
          if (!loaded) begin
-            $readmemh("loadfile_1.img", mem);
+            $readmemh("loadfile_3.img", mem);
             loaded = 1;
          end
 

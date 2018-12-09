@@ -41,7 +41,7 @@ wire if_id_PCS, id_ex_PCS, ex_mem_PCS, mem_wb_PCS;                              
 //forwarding unit wires
 wire extoexA, memtoexA, extoexB, memtoexB, memtomemB;
 
-wire cacheMiss_stall_if_id; //stall due to Inst Cache Miss
+wire cacheMiss_stall_if_id, cacheMiss_stall_data; //stall due to Inst Cache Miss
 //select branch type
 assign brAddr = (if_id_Br) ? if_id_reg1 : next_pc;
 //flush if/id reg
@@ -57,14 +57,14 @@ wire ich, dch;
 
 //*********************************************    IF STAGE      ********************************************************************
 //pipeline register
-IF_ID_latch if_id(.clk(clk), .rst(if_flush), .en(~cacheMiss_stall_if_id), .opc_in(curr_pc), .npc_in(brAddr), .instr_in(instr), .opc_out(if_id_oldpc), .npc_out(if_id_npc), .instr_out(instr_if_id));
+IF_ID_latch if_id(.clk(clk), .rst(if_flush), .en(~cacheMiss_stall_if_id & ~cacheMiss_stall_data), .opc_in(curr_pc), .npc_in(brAddr), .instr_in(instr), .opc_out(if_id_oldpc), .npc_out(if_id_npc), .instr_out(instr_if_id));
 //pc register
-pc_reg pcReg(.clk(clk), .rst(~rst_n), .D(brAddr), .WriteEnable(~pc_reg_hlt & ~cacheMiss_stall_if_id), .q(curr_pc));
+pc_reg pcReg(.clk(clk), .rst(~rst_n), .D(brAddr), .WriteEnable(~pc_reg_hlt & ~(cacheMiss_stall_if_id | cacheMiss_stall_data)), .q(curr_pc));
 //instruction memory
 //instr_memory iMem(.data_out(instr), .addr(curr_pc), .clk(clk), .rst(~rst_n));
 //data_memory dMem(.data_out(mem_data_out), .data_in(mem_data_in), .addr(ex_mem_aluout), .enable(memEnable), .wr(ex_mem_MemWrite), .clk(clk), .rst(~rst_n));
 cache_control accessCache(.clk(clk), .rst(~rst_n), .instr_write(1'b0), .instr_read(1'b1), .data_write(ex_mem_MemWrite), .data_read(memEnable), .instr_cache_addr(curr_pc), .data_cache_addr(ex_mem_aluout),
-                            .data_cache_data_in(mem_data_in), .instr_cache_data(instr), .data_cache_data(mem_data_out), .if_stall(cacheMiss_stall_if_id), .mem_stall(), .instr_cache_hit(ich), .data_cache_hit(dch));
+                            .data_cache_data_in(mem_data_in), .instr_cache_data(instr), .data_cache_data(mem_data_out), .if_stall(cacheMiss_stall_if_id), .mem_stall(cacheMiss_stall_data), .instr_cache_hit(ich), .data_cache_hit(dch));
 
 
 
@@ -80,7 +80,7 @@ assign pc_ctrl_in = if_id_BEn ? if_id_oldpc : curr_pc;
 
 //*********************************************    ID STAGE      ********************************************************************
 //pipeline register
-ID_EX_Latch id_ex(.clk(clk), .rst(~rst_n), .en(~stall_id_ex), .halt_in(if_id_halt), .RegDst_in(if_id_RegDst), .ALUSrc_in(if_id_ALUSrc), .MemRead_in(if_id_MemRead),
+ID_EX_Latch id_ex(.clk(clk), .rst(~rst_n), .en(~stall_id_ex & ~cacheMiss_stall_data), .halt_in(if_id_halt), .RegDst_in(if_id_RegDst), .ALUSrc_in(if_id_ALUSrc), .MemRead_in(if_id_MemRead),
                     .MemWrite_in(if_id_MemWrite), .MemtoReg_in(if_id_MemtoReg),.RegWrite_in(if_id_RegWrite), .Lower_in(if_id_Lower),
                     .Higher_in(if_id_Higher), .BEn_in(if_id_BEn), .Br_in(if_id_Br), .PCS_in(if_id_PCS), .opc_in(instr_if_id[15:12]), .regs_in({rs,rt}), .npc_in(if_id_npc), .wreg_in(destReg), 
                     .a_in(if_id_reg1), .b_in(if_id_reg2), .imm_in(id_imm), .halt_out(id_ex_halt), .RegDst_out(id_ex_RegDst), .ALUSrc_out(id_ex_ALUSrc),
@@ -121,7 +121,7 @@ assign flush = bTaken;
 
 //*********************************************    EX STAGE      ********************************************************************
 //pipeline register
-EX_MEM_Latch ex_mem(.clk(clk), .rst(~rst_n), .en(1'b1), .wreg_in(id_ex_wreg), .halt_in(id_ex_halt), .MemRead_in(id_ex_MemRead), .MemWrite_in(id_ex_MemWrite),
+EX_MEM_Latch ex_mem(.clk(clk), .rst(~rst_n), .en(1'b1 & ~cacheMiss_stall_data), .wreg_in(id_ex_wreg), .halt_in(id_ex_halt), .MemRead_in(id_ex_MemRead), .MemWrite_in(id_ex_MemWrite),
                     .MemtoReg_in(id_ex_MemtoReg), .RegWrite_in(id_ex_RegWrite), .PCS_in(id_ex_PCS), .rt_fwd_in(rsrt_fwd[3:0]), .npc_in(id_ex_npc), .b_in(id_ex_reg2),
                     .alu_in(ex_aluout), .opcode_in(id_ex_opc),.wreg_out(ex_mem_wreg), .halt_out(ex_mem_halt), .MemRead_out(ex_mem_MemRead), 
                     .MemWrite_out(ex_mem_MemWrite),.MemtoReg_out(ex_mem_MemtoReg), .RegWrite_out(ex_mem_RegWrite), .PCS_out(ex_mem_PCS),
@@ -151,7 +151,7 @@ assign aluB = (id_ex_ALUSrc) ? id_ex_immm : reg2_fwd;
 
 //*********************************************    MEM STAGE      ********************************************************************
 //pipeline register
-MEM_WB_Latch mem_wb(.clk(clk), .rst(~rst_n), .en(1'b1), .wreg_in(ex_mem_wreg), .halt_in(ex_mem_halt), .MemtoReg_in(ex_mem_MemtoReg), .RegWrite_in(ex_mem_RegWrite),
+MEM_WB_Latch mem_wb(.clk(clk), .rst(~rst_n), .en(1'b1 & ~cacheMiss_stall_data), .wreg_in(ex_mem_wreg), .halt_in(ex_mem_halt), .MemtoReg_in(ex_mem_MemtoReg), .RegWrite_in(ex_mem_RegWrite),
                     .PCS_in(ex_mem_PCS), .npc_in(ex_mem_npc), .mem_in(mem_data_out), .alu_in(ex_mem_aluout),.wreg_out(mem_wb_wreg), .halt_out(mem_wb_halt), .MemtoReg_out(mem_wb_MemtoReg),
                     .RegWrite_out(mem_wb_RegWrite), .PCS_out(mem_wb_PCS), .npc_out(mem_wb_npc), .mem_out(mem_wb_memdata), .alu_out(mem_wb_aluout));
 //data memory
