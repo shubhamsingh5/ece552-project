@@ -7,7 +7,7 @@ output [15:0] instr_cache_data, data_cache_data;                //data output by
 output if_stall, mem_stall;                                     //pipeline stall signals
 output instr_cache_hit, data_cache_hit;
 
-wire cache_enable, get_next_block;
+wire cache_enable;
 wire instr_miss_detected, data_miss_detected;
 //wire data_valid;
 wire FSM_tag_Wen;
@@ -63,10 +63,10 @@ assign data_write_1 = (data_cache_addr[15:10] == data_metadata1[5:0] & data_meta
 
 //figure out if there was a cache miss
 assign instr_miss_detected = (~instr_write_0 & ~instr_write_1) & (instr_write | instr_read);
-assign instr_cache_hit = ~instr_miss_detected;
+assign instr_cache_hit = ~instr_miss_detected & (instr_write | instr_read);
 
 assign data_miss_detected = (~data_write_0 & ~data_write_1) & (data_write | data_read);
-assign data_cache_hit = ~data_miss_detected;
+assign data_cache_hit = ~data_miss_detected & (data_write | data_read);
 
 //get miss address in case of cache miss
 assign miss_address = instr_miss_detected ? instr_cache_addr : data_cache_addr;
